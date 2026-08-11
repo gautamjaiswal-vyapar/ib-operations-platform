@@ -28,7 +28,7 @@ The workflow installs dependencies, creates the Next.js static export, uploads `
 
 Create Actions repository variables named `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. These are injected into the static build as public browser configuration. Row Level Security—not secrecy of the publishable key—protects database rows. Never configure a service-role or secret key in GitHub Pages.
 
-Before deployment, run `supabase/migrations/202608110001_initial_operations.sql` in the Supabase SQL Editor and enable Anonymous Sign-Ins. Without the variables, the site continues in browser-local fallback mode.
+Before deployment, run all files in `supabase/migrations` in timestamp order in the Supabase SQL Editor and enable Anonymous Sign-Ins. Without the variables, the site continues in browser-local fallback mode.
 
 ## Repository protection
 

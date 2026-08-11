@@ -7,6 +7,7 @@ type Incentive = { _id: string; executive: { name: string }; target: number; eli
 type Store = { executives: Executive[]; monthlyMappings: MonthlyMapping[]; targets: Target[]; incentives: Incentive[]; weeklySnapshots: string[]; monthlySnapshots: string[]; updatedAt: string };
 export type MappingInput = { month: string; executiveId?: string; newExecutive?: Omit<Executive, '_id' | 'tenurity' | 'active'> };
 export type TargetInput = Omit<Target, '_id' | 'version' | 'effectiveTo' | 'status'>;
+export type MappingBatchInput = { month: string; executiveIds: string[]; newExecutives: Array<Omit<Executive, '_id' | 'tenurity' | 'active'>> };
 
 const STORAGE_KEY = 'ib-operations-platform-v3';
 const monthKey = (date = new Date()) => date.toISOString().slice(0, 7);
@@ -48,16 +49,40 @@ async function saveMapping(input: MappingInput): Promise<MonthlyMapping> {
   if (!executive) throw new Error('Select or create an executive.');
   const { data, error } = await supabase.from('monthly_mappings').upsert({ workspace_id: workspace, month: `${input.month}-01`, executive_id: executive._id, employee_id: executive.employeeId, executive_name: executive.name, email: executive.email, manager: executive.manager, source: executive.source, tenurity: calculateTenurity(executive.doj, input.month), status: executive.status }, { onConflict: 'workspace_id,month,executive_id' }).select().single(); if (error) throw error; return mapMapping(data);
 }
+async function saveMappingsBatch(input: MappingBatchInput): Promise<MonthlyMapping[]> {
+  if (!input.executiveIds.length && !input.newExecutives.length) throw new Error('Select or paste at least one agent.');
+  if (!supabaseConfigured || !supabase) {
+    const before = structuredClone(readStore());
+    try {
+      const results: MonthlyMapping[] = [];
+      for (const executiveId of input.executiveIds) results.push(await saveMapping({ month: input.month, executiveId }));
+      for (const newExecutive of input.newExecutives) results.push(await saveMapping({ month: input.month, newExecutive }));
+      return results;
+    } catch (error) { writeStore(before); throw error; }
+  }
+  const workspace = await getWorkspaceId();
+  const { data, error } = await supabase.rpc('batch_add_monthly_mappings', { target_workspace: workspace, target_month: `${input.month}-01`, existing_executive_ids: input.executiveIds, new_agents: input.newExecutives });
+  if (error) throw error; return data.map(mapMapping);
+}
 async function listTargets(): Promise<Target[]> { if (!supabaseConfigured || !supabase) return readStore().targets; const workspace = await getWorkspaceId(); const { data, error } = await supabase.from('target_versions').select('*').eq('workspace_id', workspace).order('source').order('tenurity').order('version', { ascending: false }); if (error) throw error; return data.map(mapTarget); }
 async function createTarget(input: TargetInput): Promise<Target> { if (!supabaseConfigured || !supabase) { const store = readStore(); const active = store.targets.find((row) => row.source === input.source && row.tenurity === input.tenurity && row.status === 'ACTIVE'); const version = Math.max(0, ...store.targets.filter((row) => row.source === input.source && row.tenurity === input.tenurity).map((row) => row.version)) + 1; if (active) { active.status = 'INACTIVE'; const end = new Date(`${input.effectiveFrom}T00:00:00Z`); end.setUTCDate(end.getUTCDate() - 1); active.effectiveTo = end.toISOString().slice(0, 10); } const created: Target = { ...input, _id: crypto.randomUUID(), version, status: 'ACTIVE' }; store.targets.push(created); writeStore(store); return created; } const workspace = await getWorkspaceId(); const { data, error } = await supabase.rpc('create_target_version', { target_workspace: workspace, target_source: input.source, target_tenurity: input.tenurity, starts_on: input.effectiveFrom, target_revenue: input.revenue, target_login: input.login, target_demo: input.demo, target_license: input.license, target_pro_platform: input.proPlatform, target_arpl: input.arpl }); if (error) throw error; return mapTarget(data); }
+async function createTargetsBatch(inputs: TargetInput[]): Promise<Target[]> {
+  if (!inputs.length) throw new Error('Paste at least one target row.');
+  const combinations = new Set<string>();
+  inputs.forEach((input) => { const key = `${input.source}\u001f${input.tenurity}`; if (combinations.has(key)) throw new Error(`Duplicate source/tenurity in batch: ${input.source} / ${input.tenurity}`); combinations.add(key); });
+  if (!supabaseConfigured || !supabase) { const before = structuredClone(readStore()); try { const results: Target[] = []; for (const input of inputs) results.push(await createTarget(input)); return results; } catch (error) { writeStore(before); throw error; } }
+  const workspace = await getWorkspaceId(); const { data, error } = await supabase.rpc('batch_create_target_versions', { target_workspace: workspace, targets: inputs }); if (error) throw error; return data.map(mapTarget);
+}
 
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   const method = init.method ?? 'GET'; const url = new URL(path, 'https://local.invalid');
   if (url.pathname === '/executives') return await listExecutives() as T;
   if (url.pathname === '/monthly-mappings' && method === 'GET') return await listMappings(url.searchParams.get('month') ?? monthKey()) as T;
   if (url.pathname === '/monthly-mappings' && method === 'POST') return await saveMapping(payload(init)) as T;
+  if (url.pathname === '/monthly-mappings/batch' && method === 'POST') return await saveMappingsBatch(payload(init)) as T;
   if (url.pathname === '/targets' && method === 'GET') return await listTargets() as T;
   if (url.pathname === '/targets/versions' && method === 'POST') return await createTarget(payload(init)) as T;
+  if (url.pathname === '/targets/versions/batch' && method === 'POST') return await createTargetsBatch(payload(init)) as T;
   const store = readStore();
   if (url.pathname === '/incentives/calculate' && method === 'POST') { const nextVersion = Math.max(0, ...store.incentives.map((row) => row.calculationVersion)) + 1; store.incentives = calculateIncentives(store.executives, store.targets, nextVersion); writeStore(store); return { month: monthKey(), calculationVersion: nextVersion, rows: store.incentives } as T; }
   if (url.pathname === '/incentives') return store.incentives as T;

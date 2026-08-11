@@ -5,11 +5,12 @@ GitHub Pages frontend with an optional Supabase backend. The platform uses Next.
 ## Implemented operations
 
 - Monthly executive mappings with month-specific immutable details
-- Add an existing agent to a month or create a complete new agent profile
+- Batch-select multiple existing agents and paste new-agent rows from Sheets/Excel
+- Copyable agent and target templates with row-level paste validation
 - DOJ-derived M0/M1/M1+ tenurity calculated for the selected month
 - Effective-dated target versions by source and tenurity
 - Automatic closing and deactivation of the prior active target version
-- Atomic target version creation through a PostgreSQL function
+- Atomic batch target version creation through PostgreSQL functions
 - Planning, incentives, and analytics demonstration modules
 - Browser-local fallback when Supabase is not configured
 
@@ -17,7 +18,7 @@ GitHub Pages frontend with an optional Supabase backend. The platform uses Next.
 
 1. Create a Supabase project.
 2. Open **SQL Editor → New query**.
-3. Run the complete SQL file at `supabase/migrations/202608110001_initial_operations.sql`.
+3. Run every SQL file in `supabase/migrations` in timestamp order. Existing projects must also run `202608110002_batch_operations.sql`.
 4. Open **Authentication → Providers → Anonymous Sign-Ins** and enable anonymous sign-ins.
 5. Copy the project URL and publishable key from **Project Settings → API**.
 
