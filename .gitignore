@@ -1,6 +1,7 @@
 node_modules
 dist
 .next
+out
 coverage
 .env
 .env.local
@@ -13,3 +14,4 @@ coverage
 *.tsbuildinfo
 .turbo
 /home.py
+/*.zip

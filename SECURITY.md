@@ -1,17 +1,7 @@
 # Security policy
 
-## Reporting a vulnerability
+Report vulnerabilities privately through **Security → Report a vulnerability** in the GitHub repository. Do not include real employee data, credentials, access tokens, or production exports.
 
-Do not open a public issue for suspected vulnerabilities. Use the repository's **Security → Report a vulnerability** flow to create a private GitHub Security Advisory. Include affected versions, reproduction details, impact, and any proposed mitigation. Remove employee PII, live credentials, access tokens, and production data from the report.
+This static edition has no server, authentication service, database, or cloud credentials. Browser data is stored in `localStorage`, is accessible to scripts running on the same origin, and must be treated as demonstration data only. Do not enter confidential, regulated, or production information.
 
-## Supported versions
-
-Security fixes are applied to the current `main` branch and the latest tagged release. Older releases should be upgraded before requesting a backport.
-
-## Operational expectations
-
-- Enable GitHub secret scanning, push protection, Dependabot alerts, and required CodeQL checks.
-- Protect `main`; require pull requests, successful CI, review approval, conversation resolution, and signed commits where organizational policy requires them.
-- Store deployment credentials in environment-scoped GitHub secrets or the deployment platform's secret manager.
-- Use workload identity federation instead of long-lived Google Cloud service-account keys when possible.
-- Treat MongoDB backups, BigQuery exports, Sheets imports, logs, and audit records as sensitive operational data.
+Enable GitHub CodeQL, Dependabot alerts, secret scanning, push protection, required pull-request reviews, and required CI checks on `main`.

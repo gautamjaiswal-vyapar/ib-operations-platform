@@ -19,5 +19,5 @@ body:
     id: domains
     attributes:
       label: Domain and data impact
-      description: Identify affected services, collections, permissions, integrations, and historical reporting.
+      description: Identify affected pages, browser-local data, calculations, navigation, and static export behavior.
     validations: { required: true }

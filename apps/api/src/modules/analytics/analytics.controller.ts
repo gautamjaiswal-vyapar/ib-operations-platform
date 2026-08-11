@@ -1,2 +1,0 @@
-import { Controller,Get } from '@nestjs/common';import { ApiBearerAuth,ApiTags } from '@nestjs/swagger';import { RequirePermissions } from '../../common/decorators/auth.decorators';import { AnalyticsService } from './analytics.service';
-@ApiTags('Analytics')@ApiBearerAuth()@Controller('analytics')export class AnalyticsController{constructor(private service:AnalyticsService){}@Get('dashboard')@RequirePermissions('analytics:read')dashboard(){return this.service.dashboard();}}

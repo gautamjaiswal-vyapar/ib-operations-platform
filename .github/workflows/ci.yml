@@ -11,25 +11,11 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    services:
-      mongodb:
-        image: mongo:7.0
-        ports: ["27017:27017"]
-      redis:
-        image: redis:7.4-alpine
-        ports: ["6379:6379"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm }
-      - run: npm ci --ignore-scripts
+      - run: npm ci
       - run: npm run lint
       - run: npm test
-        env:
-          MONGODB_URI: mongodb://localhost:27017/ib_operations_test
-          REDIS_HOST: localhost
-          JWT_SECRET: test-secret-with-at-least-32-characters
-          JWT_REFRESH_SECRET: test-refresh-secret-with-32-characters
       - run: npm run build
-        env:
-          NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1

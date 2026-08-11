@@ -1,42 +1,37 @@
-# GitHub repository and deployment guide
+# Plain GitHub Pages deployment
 
-## Repository creation
+## Create the repository
 
-Create a private GitHub repository named `ib-operations-platform` without adding generated README, license, or `.gitignore` files. From this project directory:
+Create an empty GitHub repository, then run from the project directory:
 
 ```bash
+git add .
+git commit -m "Publish static IB Operations Platform"
 git remote add origin git@github.com:YOUR_ORGANIZATION/ib-operations-platform.git
 git push -u origin main
 ```
 
-Use an HTTPS remote instead if required by organizational policy. Never embed a personal access token in the remote URL.
+You may use an HTTPS remote if required by your organization. Do not place access tokens in the remote URL.
 
-## Required repository settings
+## Enable Pages
 
-Protect `main` with pull requests, at least one approval, resolved conversations, and the `verify` and CodeQL checks. Prevent force pushes and deletion. Enable private vulnerability reporting, Dependabot alerts, secret scanning, and push protection.
+In the GitHub repository:
 
-Set the Actions variable `NEXT_PUBLIC_API_URL` to the public versioned API URL. Tagged releases such as `v1.0.0` publish API and web images to GitHub Container Registry:
+1. Open **Settings → Pages**.
+2. Select **GitHub Actions** as the source.
+3. Open **Actions → Deploy GitHub Pages** and run the workflow, or push to `main`.
+4. After the workflow completes, open its deployment URL.
 
-```text
-ghcr.io/<repository-owner>/ib-operations-api:<tag>
-ghcr.io/<repository-owner>/ib-operations-web:<tag>
-```
+The workflow installs dependencies, creates the Next.js static export, uploads `apps/web/out`, and publishes it with GitHub's official Pages actions.
 
-## Runtime hosting
+## No credentials required
 
-GitHub Pages cannot host this application because the platform requires a NestJS server, MongoDB, Redis, background workers, and secrets. Deploy the GHCR images to a container runtime such as Google Cloud Run/GKE, AWS ECS/EKS, Azure Container Apps/AKS, or an equivalent internal Kubernetes platform.
+The site does not use repository secrets, runtime environment variables, Google OAuth, BigQuery, Google Sheets, MongoDB, Redis, or Docker. All demonstration state stays in the visitor's browser.
 
-Provide runtime environment variables from a secret manager. At minimum configure MongoDB, Redis, both JWT secrets, scheduler secret, web/API URLs, and permitted CORS origin. Configure Google OAuth and BigQuery/Sheets credentials only in environments where those integrations are enabled.
+## Repository protection
 
-Run `npm run migrate` as a controlled pre-deployment job and `npm run seed` only during first-environment initialization. Deploy the API before the web image when API contracts change compatibly. Use health checks, gradual rollout, and a rollback to the prior immutable image tag.
+Protect `main` with pull requests and require the CI and CodeQL checks. Enable Dependabot, secret scanning, push protection, and private vulnerability reporting where available.
 
-## Releases
+## Custom domains
 
-After CI is green on `main`:
-
-```bash
-git tag -a v1.0.0 -m "IB Operations Platform v1.0.0"
-git push origin v1.0.0
-```
-
-The container publication workflow signs into GHCR using the repository-scoped `GITHUB_TOKEN`; no registry password is required.
+Configure a custom domain in **Settings → Pages** and follow GitHub's DNS instructions. Enforce HTTPS after DNS validation completes.
