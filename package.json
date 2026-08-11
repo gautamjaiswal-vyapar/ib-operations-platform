@@ -2,7 +2,9 @@
   "name": "ib-operations-platform",
   "version": "2.0.0",
   "private": true,
-  "workspaces": ["apps/web"],
+  "workspaces": [
+    "apps/web"
+  ],
   "scripts": {
     "dev": "npm run dev --workspace=@ib/web",
     "build": "npm run build --workspace=@ib/web",
@@ -10,5 +12,11 @@
     "test": "npm run lint",
     "start": "npm run start --workspace=@ib/web"
   },
-  "engines": { "node": ">=20.11", "npm": ">=10" }
+  "engines": {
+    "node": ">=20.11",
+    "npm": ">=10"
+  },
+  "allowScripts": {
+    "sharp": true
+  }
 }
