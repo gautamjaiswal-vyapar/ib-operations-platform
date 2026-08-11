@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose a measurable operations capability
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and users
+      description: Describe the decision, workflow, or control that is currently difficult.
+    validations: { required: true }
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: State measurable acceptance criteria without prescribing implementation.
+    validations: { required: true }
+  - type: textarea
+    id: domains
+    attributes:
+      label: Domain and data impact
+      description: Identify affected services, collections, permissions, integrations, and historical reporting.
+    validations: { required: true }
