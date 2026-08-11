@@ -1,52 +1,72 @@
-# IB Operations Platform — GitHub Pages Edition
+# IB Operations Platform
 
-A credential-free static operations dashboard built with Next.js, React, TypeScript, TailwindCSS, TanStack Query, TanStack Table, React Hook Form, Zod, and Recharts.
+GitHub Pages frontend with an optional Supabase backend. The platform uses Next.js, React, TypeScript, TailwindCSS, TanStack Query/Table, Recharts, and Supabase Postgres/Auth.
 
-This edition is designed for plain GitHub Pages deployment. It has no backend, database, Docker, Redis, cloud account, environment file, API key, or login requirement. Demonstration data is seeded automatically and stored in the visitor's browser using `localStorage`.
+## Implemented operations
 
-## Included modules
+- Monthly executive mappings with month-specific immutable details
+- Add an existing agent to a month or create a complete new agent profile
+- DOJ-derived M0/M1/M1+ tenurity calculated for the selected month
+- Effective-dated target versions by source and tenurity
+- Automatic closing and deactivation of the prior active target version
+- Atomic target version creation through a PostgreSQL function
+- Planning, incentives, and analytics demonstration modules
+- Browser-local fallback when Supabase is not configured
 
-- Operations overview and trends
-- Executive master with automatically derived M0/M1/M1+ tenurity
-- Effective-dated target versions
-- Weekly and monthly planning snapshots
-- Versioned incentive calculations
-- Analytics charts
-- Browser-data export and reset
+## Supabase setup
 
-## Important data limitation
+1. Create a Supabase project.
+2. Open **SQL Editor → New query**.
+3. Run the complete SQL file at `supabase/migrations/202608110001_initial_operations.sql`.
+4. Open **Authentication → Providers → Anonymous Sign-Ins** and enable anonymous sign-ins.
+5. Copy the project URL and publishable key from **Project Settings → API**.
 
-GitHub Pages is static hosting. Data is private to each browser and is not shared between users or devices. Clearing browser storage removes local changes. This edition is suitable for demonstrations, prototypes, and UI validation—not authoritative enterprise record keeping.
+For local development:
+
+```bash
+cp .env.example apps/web/.env.local
+```
+
+Fill in:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
+```
+
+The publishable key is designed for browser use when RLS is enabled. Never place a Supabase secret/service-role key in this application.
 
 ## Run locally
-
-Install Node.js 20 or later, then run:
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. No credentials or environment configuration are needed.
+Open `http://localhost:3000`.
 
-Validate the production export:
+Validate before publishing:
 
 ```bash
 npm run lint
 npm test
 npm run build
+npm audit
 ```
 
-The deployable static site is generated in `apps/web/out`.
+## GitHub Pages deployment
 
-## Deploy to GitHub Pages
+In the GitHub repository, create these **Settings → Secrets and variables → Actions → Variables**:
 
-1. Push the project to a GitHub repository.
-2. Open **Settings → Pages**.
-3. Under **Build and deployment**, select **GitHub Actions**.
-4. Push to `main` or manually run **Deploy GitHub Pages** from the Actions tab.
-5. Open the URL shown in the completed deployment job.
+```text
+SUPABASE_URL
+SUPABASE_PUBLISHABLE_KEY
+```
 
-The workflow automatically handles project-repository base paths such as `/ib-operations-platform/`. No GitHub secrets or repository variables are required.
+Then select **Settings → Pages → GitHub Actions** and run the **Deploy GitHub Pages** workflow. The workflow injects the public Supabase configuration during the static build.
 
-See [GitHub deployment instructions](docs/GITHUB_DEPLOYMENT.md), [contribution standards](CONTRIBUTING.md), and [security policy](SECURITY.md).
+## Security model
+
+Supabase tables use Row Level Security. The application signs a visitor in with Supabase Anonymous Auth and bootstraps an isolated workspace. Workspace membership policies protect executives, monthly mappings, and target versions. Add permanent authentication and an administrator-controlled invitation flow before using the system for organization-wide production data.
+
+When Supabase variables are absent, the application clearly shows **Browser-local fallback** and stores demonstration data in `localStorage`.

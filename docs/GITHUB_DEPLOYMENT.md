@@ -24,9 +24,11 @@ In the GitHub repository:
 
 The workflow installs dependencies, creates the Next.js static export, uploads `apps/web/out`, and publishes it with GitHub's official Pages actions.
 
-## No credentials required
+## Supabase variables
 
-The site does not use repository secrets, runtime environment variables, Google OAuth, BigQuery, Google Sheets, MongoDB, Redis, or Docker. All demonstration state stays in the visitor's browser.
+Create Actions repository variables named `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. These are injected into the static build as public browser configuration. Row Level Security—not secrecy of the publishable key—protects database rows. Never configure a service-role or secret key in GitHub Pages.
+
+Before deployment, run `supabase/migrations/202608110001_initial_operations.sql` in the Supabase SQL Editor and enable Anonymous Sign-Ins. Without the variables, the site continues in browser-local fallback mode.
 
 ## Repository protection
 
