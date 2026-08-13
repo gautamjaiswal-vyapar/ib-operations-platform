@@ -21,7 +21,9 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          NEXT_PUBLIC_APPS_SCRIPT_URL: ${{ vars.APPS_SCRIPT_URL }}
+          # The repository variable can override the endpoint for future deployments.
+          # The fallback keeps GitHub Pages functional when the variable is not configured.
+          NEXT_PUBLIC_APPS_SCRIPT_URL: ${{ vars.APPS_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbwR6fmUEHwtHFM6qRNfNN5Im6opSgDtb1xI25cQFmzEP_e71sdebGuCtHf9CE63Py6SbQ/exec' }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/out
