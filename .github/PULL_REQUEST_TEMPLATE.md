@@ -8,7 +8,7 @@ Describe the user or operational outcome and the domain boundary affected.
 - [ ] `npm test`
 - [ ] `npm run build`
 - [ ] Static export and repository base-path navigation verified
-- [ ] Browser-local persistence and reset behavior reviewed
+- [ ] Google Sheets schemas, batch writes, and audit behavior reviewed
 - [ ] Documentation and environment examples updated
 
 ## Data and rollback

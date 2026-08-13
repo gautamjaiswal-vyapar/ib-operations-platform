@@ -7,9 +7,9 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace=@ib/web",
-    "build": "npm run build --workspace=@ib/web",
-    "lint": "npm run lint --workspace=@ib/web",
-    "test": "npm run lint",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "node scripts/verify-apps-script.mjs && npm run lint",
     "start": "npm run start --workspace=@ib/web"
   },
   "engines": {

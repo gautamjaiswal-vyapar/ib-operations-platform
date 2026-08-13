@@ -24,11 +24,11 @@ In the GitHub repository:
 
 The workflow installs dependencies, creates the Next.js static export, uploads `apps/web/out`, and publishes it with GitHub's official Pages actions.
 
-## Supabase variables
+## Apps Script variable
 
-Create Actions repository variables named `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. These are injected into the static build as public browser configuration. Row Level Security—not secrecy of the publishable key—protects database rows. Never configure a service-role or secret key in GitHub Pages.
+Create an Actions repository variable named `APPS_SCRIPT_URL`. It is injected into the static build as the browser-facing web-app endpoint. Authentication credentials, password hashes, role mappings, session-token hashes, and business data remain in the configured backend Google Spreadsheet.
 
-Before deployment, run all files in `supabase/migrations` in timestamp order in the Supabase SQL Editor and enable Anonymous Sign-Ins. Without the variables, the site continues in browser-local fallback mode.
+Before deploying the frontend, upload `apps-script/`, run `configurePlatform(...)`, run `setOwnerPassword(...)` interactively, and deploy the Apps Script project as a web app. Without `APPS_SCRIPT_URL`, protected platform operations remain unavailable.
 
 ## Repository protection
 

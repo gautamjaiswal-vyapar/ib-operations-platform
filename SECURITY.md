@@ -1,7 +1,7 @@
 # Security policy
 
-Report vulnerabilities privately through **Security → Report a vulnerability** in the GitHub repository. Do not include real employee data, credentials, access tokens, or production exports.
+Report vulnerabilities privately through **Security → Report a vulnerability** in the GitHub repository. Never include production employee data, passwords, raw session tokens, activation codes, or exports in an issue.
 
-This static edition has no server, authentication service, database, or cloud credentials. Browser data is stored in `localStorage`, is accessible to scripts running on the same origin, and must be treated as demonstration data only. Do not enter confidential, regulated, or production information.
+The static frontend calls a Google Apps Script backend. Authentication accounts, salted password hashes, hashed session tokens, roles, activation-code hashes, business data, and audit history are held in one access-controlled Google Spreadsheet. Plaintext passwords and raw session tokens are never persisted in the workbook.
 
-Enable GitHub CodeQL, Dependabot alerts, secret scanning, push protection, required pull-request reviews, and required CI checks on `main`.
+Restrict workbook access to platform administrators and the Apps Script deployment owner. Protect the Apps Script project and deployment, review `users` and `sessions`, expire old sessions, and keep the external revenue source private. Enable GitHub CodeQL, Dependabot alerts, secret scanning, push protection, required pull-request reviews, and required CI checks on `main`.

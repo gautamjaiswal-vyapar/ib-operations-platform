@@ -1,52 +1,117 @@
 # IB Operations Platform
 
-GitHub Pages frontend with an optional Supabase backend. The platform uses Next.js, React, TypeScript, TailwindCSS, TanStack Query/Table, Recharts, and Supabase Postgres/Auth.
+Enterprise operations dashboard with a static Next.js frontend, Google Apps Script API, and Google Sheets as the source of truth. Supabase, MongoDB, Docker, and a separate Node server are not required.
 
-## Implemented operations
+## Architecture
 
-- Monthly executive mappings with month-specific immutable details
-- Batch-select multiple existing agents and paste new-agent rows from Sheets/Excel
-- Copyable agent and target templates with row-level paste validation
-- DOJ-derived M0/M1/M1+ tenurity calculated for the selected month
-- Effective-dated target versions by source and tenurity
-- Automatic closing and deactivation of the prior active target version
-- Atomic batch target version creation through PostgreSQL functions
-- Planning, incentives, and analytics demonstration modules
-- Browser-local fallback when Supabase is not configured
+- **Frontend:** Next.js, React, TypeScript, TailwindCSS, TanStack Query/Table, Recharts
+- **Authentication:** sheet-backed accounts with salted password hashes, account lockout, activation codes, and hashed eight-hour sessions
+- **Authorization:** OWNER, ADMIN, EDITOR, and VIEWER roles stored in the `users` sheet
+- **Backend:** Google Apps Script web app in [`apps-script`](./apps-script)
+- **Datastore:** one Google spreadsheet with purpose-specific sheets
+- **Analytics ingestion:** Apps Script BigQuery advanced service with preview, raw dump, job history, and bulk executive upsert
+- **Hosting:** GitHub Pages for the frontend and an Apps Script web-app deployment for the API
 
-## Supabase setup
+Plaintext passwords and raw reusable session tokens are never stored in Google Sheets or committed to GitHub. The workbook stores salted password hashes and one-way session-token hashes in `users` and `sessions`.
 
-1. Create a Supabase project.
-2. Open **SQL Editor → New query**.
-3. Run every SQL file in `supabase/migrations` in timestamp order. Existing projects must also run `202608110002_batch_operations.sql`.
-4. Open **Authentication → Providers → Anonymous Sign-Ins** and enable anonymous sign-ins.
-5. Copy the project URL and publishable key from **Project Settings → API**.
+## Sheet structure
 
-For local development:
+Running `setupPlatform()` creates and formats these sheets automatically:
+
+| Area | Sheets |
+|---|---|
+| Identity | `users`, `sessions`, `loginEvents`, `accessRequests` |
+| Master data | `sources`, `executives`, `managerMappings`, `configuration` |
+| Planning | `monthlyMappings`, `weeklyMappings`, `weeklyTargets`, `monthlyTargets`, `weeklySnapshots`, `monthlySnapshots` |
+| Targets and performance | `targetVersions`, `performance`, `bonusRules`, `incentives` |
+| Integration and governance | `bigQueryAgentDump`, `bigQueryJobs`, `sheetImports`, `notifications`, `auditLogs` |
+
+Headers are centrally defined in `apps-script/Config.gs`. Repositories read those definitions and all multi-row changes use `getValues()`/`setValues()` operations. Writes use `LockService`; verified sessions use `CacheService` for short-lived lookup acceleration; mutations create audit records.
+
+## 1. Create the Google backend
+
+1. Create an empty Google Spreadsheet and copy its ID from the URL.
+2. Open [script.google.com](https://script.google.com), create a standalone Apps Script project, and open **Project Settings**.
+3. Copy every file from `apps-script/` into the project. Keep `appsscript.json` as the manifest. Alternatively, upload the directory with `clasp` as shown below.
+4. In the Apps Script project’s linked Google Cloud project, enable the **BigQuery API**.
+5. From the Apps Script editor, run this once with your actual values:
+
+```javascript
+configurePlatform(
+  'GOOGLE_SPREADSHEET_ID',
+  'GOOGLE_CLOUD_PROJECT_ID',
+  'project_id.dataset_name.executives',
+  'asia-south1'
+);
+```
+
+The function creates every required tab inside that one workbook and seeds `gautam.jaiswal@vyapar.com` as OWNER. Next, set the OWNER password interactively in the Apps Script editor; do not add it to source code or GitHub:
+
+```javascript
+setOwnerPassword('enter-a-strong-password-here-at-runtime');
+```
+
+After the run, clear the editor’s execution input/history as required by your organization. The workbook stores only the resulting salted password hash.
+
+6. Run `installPlatformTriggers()` once to install:
+   - daily tenurity refresh
+   - Monday weekly snapshot
+   - first-day monthly snapshot
+   - daily incremental BigQuery agent synchronization
+7. Select **Deploy → New deployment → Web app**:
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+8. Authorize the deployment and copy its `/exec` URL.
+
+The web app is publicly reachable, but protected operations require a valid sheet-backed session. Five failed logins lock an account for 15 minutes. ADMIN/OWNER approvals produce an eight-digit activation code that expires after 48 hours; only its hash is stored.
+
+### Upload Apps Script without a ZIP
+
+Install and authenticate the official Apps Script CLI:
 
 ```bash
-cp .env.example apps/web/.env.local
+npm install --global @google/clasp
+clasp login
+cd apps-script
+clasp create --type standalone --title "IB Operations Platform API"
+clasp push
 ```
 
-Fill in:
+If the Apps Script project already exists, create `apps-script/.clasp.json` containing its script ID, then run `clasp push` from that directory. Do not commit `.clasp.json` if it contains organization-specific identifiers.
 
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
-```
-
-The publishable key is designed for browser use when RLS is enabled. Never place a Supabase secret/service-role key in this application.
-
-## Run locally
+## 2. Run locally
 
 ```bash
 npm ci
+cp .env.example apps/web/.env.local
+```
+
+Set the public integration value in `apps/web/.env.local`:
+
+```env
+NEXT_PUBLIC_APPS_SCRIPT_URL=https://script.google.com/macros/s/DEPLOYMENT_ID/exec
+```
+
+Then run:
+
+```bash
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000` and sign in as `gautam.jaiswal@vyapar.com` with the runtime password configured through `setOwnerPassword(...)`. Other users request access first; an OWNER/ADMIN approves a role and securely shares the one-time activation code.
 
-Validate before publishing:
+## 3. Deploy the frontend to GitHub Pages
+
+In the GitHub repository:
+
+1. Open **Settings → Secrets and variables → Actions → Variables**.
+2. Add `APPS_SCRIPT_URL`.
+3. Open **Settings → Pages** and select **GitHub Actions** as the source.
+4. Run the **Deploy GitHub Pages** workflow or push to `main`.
+
+The deployment workflow builds a static site and injects only the browser-facing Apps Script deployment URL.
+
+## Validation
 
 ```bash
 npm run lint
@@ -55,19 +120,15 @@ npm run build
 npm audit
 ```
 
-## GitHub Pages deployment
+## Role behavior
 
-In the GitHub repository, create these **Settings → Secrets and variables → Actions → Variables**:
+- **OWNER:** unrestricted platform access; initially assigned to `gautam.jaiswal@vyapar.com`
+- **VIEWER:** dashboards, mappings, targets, planning results, incentives, and analytics
+- **EDITOR:** VIEWER permissions plus batch mappings, target versions, snapshots, and incentive calculation
+- **ADMIN:** all permissions plus access approvals, source configuration, and BigQuery fetch/import
 
-```text
-SUPABASE_URL
-SUPABASE_PUBLISHABLE_KEY
-```
+Target history is append-versioned. Creating a newer source/tenurity target closes the previous version one day before the new effective date and marks it inactive. Monthly and weekly mapping records preserve their own source, manager, and tenurity values for historical reporting.
 
-Then select **Settings → Pages → GitHub Actions** and run the **Deploy GitHub Pages** workflow. The workflow injects the public Supabase configuration during the static build.
+## Revenue sheet connection
 
-## Security model
-
-Supabase tables use Row Level Security. The application signs a visitor in with Supabase Anonymous Auth and bootstraps an isolated workspace. Workspace membership policies protect executives, monthly mappings, and target versions. Add permanent authentication and an administrator-controlled invitation flow before using the system for organization-wide production data.
-
-When Supabase variables are absent, the application clearly shows **Browser-local fallback** and stores demonstration data in `localStorage`.
+From **Sources & integrations**, an OWNER/ADMIN can save the external revenue spreadsheet ID or URL and its tab name. The source tab must contain `Employee ID`, `Period Type`, `Period`, and `Revenue`; optional metric headers are `Login`, `Demo`, `License`, `Pro Platform`, and `Manual Revenue`. Preview is read-only. Import validates every employee and bulk-upserts the rows into the backend workbook’s `performance` tab, with an entry in `sheetImports` and `auditLogs`.

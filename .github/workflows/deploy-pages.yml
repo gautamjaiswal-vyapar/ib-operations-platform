@@ -21,8 +21,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_APPS_SCRIPT_URL: ${{ vars.APPS_SCRIPT_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/out

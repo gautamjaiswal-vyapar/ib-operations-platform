@@ -13,5 +13,6 @@ coverage
 .vscode
 *.tsbuildinfo
 .turbo
+.clasp.json
 /home.py
 /*.zip
