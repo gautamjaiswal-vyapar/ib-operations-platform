@@ -20,30 +20,33 @@ var PLATFORM = Object.freeze({
     weeklySnapshots:['id','weekStart','status','rowCount','createdAt','createdBy'],
     monthlySnapshots:['id','month','status','rowCount','createdAt','createdBy'],
     performance:['id','periodType','period','executiveId','revenue','login','demo','license','proPlatform','manualRevenue','updatedAt','updatedBy'],
+    weeklyIncentives:['id','month','weekStart','executiveId','executiveName','manager','target','eligibleRevenue','achievement','bonus','incentive','calculationVersion','createdAt','createdBy'],
     incentives:['id','month','executiveId','executiveName','manager','target','eligibleRevenue','achievement','bonus','incentive','calculationVersion','createdAt','createdBy'],
     bonusRules:['id','name','minAchievement','maxAchievement','incentiveRate','bonusMultiplier','managerRule','effectiveFrom','effectiveTo','active'],
     auditLogs:['id','timestamp','user','sheet','module','action','recordId','oldValue','newValue','reason','version','correlationId'],
     sheetImports:['id','type','fileName','status','rowCount','errorCount','createdAt','createdBy'],
-    bigQueryJobs:['id','jobType','queryHash','status','rowCount','error','startedAt','completedAt','createdBy'],
-    bigQueryAgentDump:['id','syncId','employeeId','name','email','doj','manager','source','status','updatedAt','fetchedAt'],
+    agentDataDump:['data_month','employee_id','executive_name','email','doj','manager'],
     notifications:['id','recipient','type','subject','body','status','createdAt','sentAt']
   })
 });
 
-function configurePlatform(spreadsheetId, bigQueryProjectId, bigQueryAgentTable, bigQueryLocation) {
+function configurePlatform(spreadsheetId) {
   if (!spreadsheetId) throw new Error('Spreadsheet ID is required.');
-  PropertiesService.getScriptProperties().setProperties({SPREADSHEET_ID:String(spreadsheetId),BIGQUERY_PROJECT_ID:String(bigQueryProjectId||''),BIGQUERY_AGENT_TABLE:String(bigQueryAgentTable||''),BIGQUERY_LOCATION:String(bigQueryLocation||'US')});
+  PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID',String(spreadsheetId));
   return setupPlatform();
 }
 
 function setupPlatform() {
   var spreadsheet = SpreadsheetApp.openById(requiredProperty_('SPREADSHEET_ID'));
+  migrateLegacyAgentSheet_(spreadsheet);
   Object.keys(PLATFORM.SHEETS).forEach(function(name){ ensureSheet_(spreadsheet,name,PLATFORM.SHEETS[name]); });
   var defaultSheet=spreadsheet.getSheetByName('Sheet1');if(defaultSheet&&defaultSheet.getLastRow()===0&&spreadsheet.getSheets().length>1)spreadsheet.deleteSheet(defaultSheet);
   seedConfiguration_();
   bootstrapAdministrator_();
   return {spreadsheetId:spreadsheet.getId(),sheets:Object.keys(PLATFORM.SHEETS),status:'READY'};
 }
+
+function migrateLegacyAgentSheet_(spreadsheet){var current=spreadsheet.getSheetByName('agentDataDump');var legacy=spreadsheet.getSheetByName('bigQueryAgentDump');if(current)return;if(!legacy||legacy.getLastRow()>1)return;if(legacy.getMaxColumns()<PLATFORM.SHEETS.agentDataDump.length)legacy.insertColumnsAfter(legacy.getMaxColumns(),PLATFORM.SHEETS.agentDataDump.length-legacy.getMaxColumns());legacy.getRange(1,1,1,Math.max(legacy.getLastColumn(),PLATFORM.SHEETS.agentDataDump.length)).clearContent();legacy.setName('agentDataDump');}
 
 function requiredProperty_(name){var value=PropertiesService.getScriptProperties().getProperty(name);if(!value&&name==='SPREADSHEET_ID')value=PLATFORM.SPREADSHEET_ID;if(!value)throw new Error('Missing Script Property: '+name);return value;}
 function now_(){return new Date().toISOString();}

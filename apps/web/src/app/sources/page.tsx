@@ -1,4 +1,63 @@
 'use client';
-import{FormEvent,useState}from'react';import{useMutation,useQuery,useQueryClient}from'@tanstack/react-query';import{RefreshCw,Plus}from'lucide-react';import{useAuth}from'@/components/auth/auth-provider';import{gasApi}from'@/lib/apps-script';
-type Source={id:string;name:string;code:string;description:string;active:boolean};type BigQueryAgent={employeeId:string;name:string;email:string;doj:string;manager:string;source:string;status:string;updatedAt:string};type RevenueRow={employeeId:string;periodType:string;period:string;revenue:number;manualRevenue:number};
-export default function Page(){const auth=useAuth();const qc=useQueryClient();const[name,setName]=useState('');const[code,setCode]=useState('');const[description,setDescription]=useState('');const[agentPreview,setAgentPreview]=useState<BigQueryAgent[]>([]);const[revenuePreview,setRevenuePreview]=useState<RevenueRow[]>([]);const[spreadsheetId,setSpreadsheetId]=useState('');const[sheetName,setSheetName]=useState('Revenue');const sources=useQuery({queryKey:['sources'],enabled:auth.isAdmin,queryFn:()=>gasApi<Source[]>('sources.list')});const add=useMutation({mutationFn:()=>gasApi('sources.create',{name,code,description}),onSuccess:async()=>{setName('');setCode('');setDescription('');await qc.invalidateQueries({queryKey:['sources']});}});const fetchAgents=useMutation({mutationFn:()=>gasApi<{rows:BigQueryAgent[];count:number}>('bigquery.agents.fetch',{limit:1000}),onSuccess:data=>setAgentPreview(data.rows)});const importAgents=useMutation({mutationFn:()=>gasApi<{imported:number;total:number}>('bigquery.agents.import',{limit:1000}),onSuccess:()=>qc.invalidateQueries({queryKey:['executives']})});const configureRevenue=useMutation({mutationFn:()=>gasApi('revenue.configure',{spreadsheetId,sheetName})});const fetchRevenue=useMutation({mutationFn:()=>gasApi<{rows:RevenueRow[];count:number}>('revenue.preview'),onSuccess:data=>setRevenuePreview(data.rows)});const importRevenue=useMutation({mutationFn:()=>gasApi<{imported:number;total:number}>('revenue.import'),onSuccess:()=>qc.invalidateQueries()});function submit(e:FormEvent){e.preventDefault();add.mutate();}if(!auth.isAdmin)return <p>Administrator access is required.</p>;return <><div className="mb-6"><h2 className="text-2xl font-bold">Sources and integrations</h2><p className="text-slate-500">Manage source master data, BigQuery agents, and Google Sheet revenue ingestion.</p></div><div className="grid gap-6 xl:grid-cols-2"><section className="card"><h3 className="text-lg font-semibold">Source configuration</h3><form onSubmit={submit} className="my-4 grid gap-3"><input required placeholder="Source name" value={name} onChange={e=>setName(e.target.value)}/><input required placeholder="Source code" value={code} onChange={e=>setCode(e.target.value)}/><input placeholder="Description" value={description} onChange={e=>setDescription(e.target.value)}/><button className="btn gap-2" disabled={add.isPending}><Plus size={16}/> Add source</button></form>{add.error&&<p className="text-sm text-red-700">{add.error.message}</p>}{sources.data?.map(source=><div key={source.id} className="border-t py-3 text-sm"><b>{source.name}</b> <span className="text-slate-500">({source.code})</span><p>{source.description}</p></div>)}</section><section className="card"><div className="flex items-center justify-between"><div><h3 className="text-lg font-semibold">BigQuery agent fetch</h3><p className="text-sm text-slate-500">Fetches agents and dumps raw rows into the backend workbook.</p></div><button className="btn-secondary gap-2" onClick={()=>fetchAgents.mutate()} disabled={fetchAgents.isPending}><RefreshCw size={16}/> Fetch</button></div>{fetchAgents.error&&<p className="mt-3 text-sm text-red-700">{fetchAgents.error.message}</p>}{agentPreview.length>0&&<><p className="mt-4 text-sm">{agentPreview.length} agents ready</p><div className="mt-2 max-h-72 overflow-auto rounded-lg border">{agentPreview.map(row=><div key={row.employeeId} className="border-b p-3 text-sm"><b>{row.employeeId} — {row.name}</b><p className="text-slate-500">{row.source} · {row.manager}</p></div>)}</div><button className="btn mt-4" onClick={()=>importAgents.mutate()} disabled={importAgents.isPending}>Import agents</button></>}{importAgents.isSuccess&&<p className="mt-3 text-sm text-emerald-700">Imported {importAgents.data.imported} agents.</p>}</section><section className="card xl:col-span-2"><h3 className="text-lg font-semibold">Revenue Google Sheet connection</h3><p className="mt-1 text-sm text-slate-500">Expected headers: Employee ID, Period Type, Period, Revenue, Login, Demo, License, Pro Platform, Manual Revenue.</p><div className="mt-4 grid gap-3 md:grid-cols-[1fr_220px_auto]"><input placeholder="Spreadsheet ID or URL" value={spreadsheetId} onChange={e=>setSpreadsheetId(e.target.value)}/><input placeholder="Sheet tab name" value={sheetName} onChange={e=>setSheetName(e.target.value)}/><button className="btn-secondary" onClick={()=>configureRevenue.mutate()} disabled={!spreadsheetId||!sheetName}>Save connection</button></div>{configureRevenue.isSuccess&&<p className="mt-2 text-sm text-emerald-700">Revenue connection saved in the configuration tab.</p>}{configureRevenue.error&&<p className="mt-2 text-sm text-red-700">{configureRevenue.error.message}</p>}<div className="mt-4 flex gap-3"><button className="btn-secondary" onClick={()=>fetchRevenue.mutate()}>Preview revenue</button>{revenuePreview.length>0&&<button className="btn" onClick={()=>importRevenue.mutate()}>Import into performance tab</button>}</div>{fetchRevenue.error&&<p className="mt-2 text-sm text-red-700">{fetchRevenue.error.message}</p>}{revenuePreview.length>0&&<div className="mt-3 max-h-64 overflow-auto rounded-lg border">{revenuePreview.map((row,index)=><div key={`${row.employeeId}-${row.period}-${index}`} className="grid grid-cols-4 border-b p-3 text-sm"><b>{row.employeeId}</b><span>{row.periodType} {row.period}</span><span>Revenue {row.revenue}</span><span>Manual {row.manualRevenue}</span></div>)}</div>}{importRevenue.isSuccess&&<p className="mt-2 text-sm text-emerald-700">Imported {importRevenue.data.imported} revenue rows.</p>}{importRevenue.error&&<p className="mt-2 text-sm text-red-700">{importRevenue.error.message}</p>}</section></div></>}
+
+import { FormEvent, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link2, Plus } from 'lucide-react';
+import { useAuth } from '@/components/auth/auth-provider';
+import { gasApi } from '@/lib/apps-script';
+
+type Source = { id: string; name: string; code: string; description: string; active: boolean };
+type RevenueRow = { employeeId: string; periodType: string; period: string; revenue: number; manualRevenue: number };
+
+export default function Page() {
+  const auth = useAuth();
+  const queryClient = useQueryClient();
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
+  const [description, setDescription] = useState('');
+  const [revenuePreview, setRevenuePreview] = useState<RevenueRow[]>([]);
+  const [agentSpreadsheetId, setAgentSpreadsheetId] = useState('1m4xZqI-Y5UHBgaYPed_kbAPaUqqeDQWT3JzlhJOo6W4');
+  const [agentSheetName, setAgentSheetName] = useState('agentDataDump');
+  const [spreadsheetId, setSpreadsheetId] = useState('');
+  const [sheetName, setSheetName] = useState('Revenue');
+  const sources = useQuery({ queryKey: ['sources'], enabled: auth.isAdmin, queryFn: () => gasApi<Source[]>('sources.list') });
+  const add = useMutation({ mutationFn: () => gasApi('sources.create', { name, code, description }), onSuccess: async () => { setName(''); setCode(''); setDescription(''); await queryClient.invalidateQueries({ queryKey: ['sources'] }); } });
+  const configureAgents = useMutation({ mutationFn: () => gasApi<{ spreadsheetId: string; sheetName: string; rowCount: number }>('agents.dump.configure', { spreadsheetId: agentSpreadsheetId, sheetName: agentSheetName }) });
+  const configureRevenue = useMutation({ mutationFn: () => gasApi('revenue.configure', { spreadsheetId, sheetName }) });
+  const fetchRevenue = useMutation({ mutationFn: () => gasApi<{ rows: RevenueRow[]; count: number }>('revenue.preview'), onSuccess: (data) => setRevenuePreview(data.rows) });
+  const importRevenue = useMutation({ mutationFn: () => gasApi<{ imported: number; total: number }>('revenue.import'), onSuccess: () => queryClient.invalidateQueries() });
+
+  function submit(event: FormEvent) { event.preventDefault(); add.mutate(); }
+  if (!auth.isAdmin) return <p>Administrator access is required.</p>;
+
+  return <>
+    <div className="mb-6"><h2 className="text-2xl font-bold">Sources and integrations</h2><p className="text-slate-500">Manage operational sources and header-driven Google Sheet connections.</p></div>
+    <div className="grid gap-6 xl:grid-cols-2">
+      <section className="card">
+        <h3 className="text-lg font-semibold">Source configuration</h3>
+        <form onSubmit={submit} className="my-4 grid gap-3"><input required placeholder="Source name" value={name} onChange={(event) => setName(event.target.value)} /><input required placeholder="Source code" value={code} onChange={(event) => setCode(event.target.value)} /><input placeholder="Description" value={description} onChange={(event) => setDescription(event.target.value)} /><button className="btn gap-2" disabled={add.isPending}><Plus size={16} /> Add source</button></form>
+        {add.error && <p className="text-sm text-red-700">{add.error.message}</p>}
+        {sources.data?.map((source) => <div key={source.id} className="border-t py-3 text-sm"><b>{source.name}</b> <span className="text-slate-500">({source.code})</span><p>{source.description}</p></div>)}
+      </section>
+      <section className="card">
+        <div className="flex items-center gap-2"><Link2 className="text-blue-700" size={20} /><h3 className="text-lg font-semibold">Executive identity connection</h3></div>
+        <p className="mt-2 text-sm text-slate-500">Expected headers: data_month, employee_id, executive_name, email, doj, manager. The platform can auto-discover the populated backend tab; saving an override pins the connection.</p>
+        <div className="mt-4 grid gap-3"><input placeholder="Spreadsheet ID or URL" value={agentSpreadsheetId} onChange={(event) => setAgentSpreadsheetId(event.target.value)} /><input placeholder="Sheet tab name" value={agentSheetName} onChange={(event) => setAgentSheetName(event.target.value)} /><button className="btn-secondary" onClick={() => configureAgents.mutate()} disabled={!agentSpreadsheetId || !agentSheetName || configureAgents.isPending}>{configureAgents.isPending ? 'Validating…' : 'Validate and save connection'}</button></div>
+        {configureAgents.isSuccess && <p className="mt-2 text-sm text-emerald-700">Connected to {configureAgents.data.sheetName}; {configureAgents.data.rowCount} identity rows detected.</p>}
+        {configureAgents.error && <p className="mt-2 text-sm text-red-700">{configureAgents.error.message}</p>}
+      </section>
+      <section className="card">
+        <h3 className="text-lg font-semibold">Revenue Google Sheet connection</h3>
+        <p className="mt-1 text-sm text-slate-500">Expected headers: Employee ID, Period Type, Period, Revenue, Login, Demo, License, Pro Platform, Manual Revenue. For weekly incentives use WEEK and a Monday date (YYYY-MM-DD).</p>
+        <div className="mt-4 grid gap-3"><input placeholder="Spreadsheet ID or URL" value={spreadsheetId} onChange={(event) => setSpreadsheetId(event.target.value)} /><input placeholder="Sheet tab name" value={sheetName} onChange={(event) => setSheetName(event.target.value)} /><button className="btn-secondary" onClick={() => configureRevenue.mutate()} disabled={!spreadsheetId || !sheetName}>Save connection</button></div>
+        {configureRevenue.isSuccess && <p className="mt-2 text-sm text-emerald-700">Revenue connection saved in the configuration tab.</p>}
+        {configureRevenue.error && <p className="mt-2 text-sm text-red-700">{configureRevenue.error.message}</p>}
+        <div className="mt-4 flex gap-3"><button className="btn-secondary" onClick={() => fetchRevenue.mutate()}>Preview revenue</button>{revenuePreview.length > 0 && <button className="btn" onClick={() => importRevenue.mutate()}>Import into performance tab</button>}</div>
+        {fetchRevenue.error && <p className="mt-2 text-sm text-red-700">{fetchRevenue.error.message}</p>}
+        {revenuePreview.length > 0 && <div className="mt-3 max-h-64 overflow-auto rounded-lg border">{revenuePreview.map((row, index) => <div key={`${row.employeeId}-${row.period}-${index}`} className="grid grid-cols-2 gap-2 border-b p-3 text-sm"><b>{row.employeeId}</b><span>{row.periodType} {row.period}</span><span>Revenue {row.revenue}</span><span>Manual {row.manualRevenue}</span></div>)}</div>}
+        {importRevenue.isSuccess && <p className="mt-2 text-sm text-emerald-700">Imported {importRevenue.data.imported} revenue rows.</p>}
+        {importRevenue.error && <p className="mt-2 text-sm text-red-700">{importRevenue.error.message}</p>}
+      </section>
+    </div>
+  </>;
+}

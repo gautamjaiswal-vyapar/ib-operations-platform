@@ -1,4 +1,39 @@
 'use client';
-import Link from'next/link';import{useEffect}from'react';import{usePathname,useRouter}from'next/navigation';import{BarChart3,CalendarDays,Database,Gauge,KeyRound,LogOut,Settings,Target,Users,WalletCards,type LucideIcon}from'lucide-react';import{cn}from'@/lib/utils';import{backendConfigured}from'@/lib/apps-script';import{useAuth}from'./auth/auth-provider';
-const publicPaths=['/','/login','/request-access'];const links:{href:string;label:string;icon:LucideIcon;roles?:('OWNER'|'ADMIN'|'EDITOR'|'VIEWER')[]}[]=[{href:'/dashboard',label:'Overview',icon:Gauge},{href:'/executives',label:'Agent mappings',icon:Users},{href:'/targets',label:'Target fetch',icon:Target},{href:'/planning',label:'Planning',icon:CalendarDays},{href:'/incentives',label:'Incentives',icon:WalletCards},{href:'/analytics',label:'Analytics',icon:BarChart3},{href:'/sources',label:'Sources & integrations',icon:Database,roles:['OWNER','ADMIN']},{href:'/admin-access',label:'Access requests',icon:KeyRound,roles:['OWNER','ADMIN']},{href:'/settings',label:'Settings',icon:Settings}];
-export function Shell({children}:{children:React.ReactNode}){const pathname=usePathname();const path=pathname.replace(/\/+$/,'')||'/';const router=useRouter();const auth=useAuth();const isPublic=publicPaths.includes(path);useEffect(()=>{if(isPublic||auth.loading)return;if(!auth.session)router.replace('/login');else if(!auth.role)router.replace('/request-access');},[isPublic,auth.loading,auth.session,auth.role,router]);if(isPublic)return <>{children}</>;if(auth.loading||!auth.session||!auth.role)return <main className="grid min-h-screen place-items-center">Loading workspace…</main>;return <div className="min-h-screen lg:grid lg:grid-cols-[250px_1fr]"><aside className="border-r bg-slate-950 p-5 text-white"><div className="mb-8"><p className="text-xs font-semibold uppercase tracking-[.2em] text-blue-300">IB Operations</p><h1 className="mt-1 text-xl font-bold">Control Center</h1><p className="mt-2 text-xs text-slate-400">Role: {auth.role}</p></div><nav className="flex gap-2 overflow-auto lg:flex-col">{links.filter(link=>!link.roles||link.roles.includes(auth.role!)).map(({href,label,icon:Icon})=><Link key={href} href={href} className={cn('flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-slate-800',path===href&&'bg-blue-700 text-white')}><Icon size={17}/>{label}</Link>)}</nav></aside><main><header className="flex h-16 items-center justify-between border-b bg-white px-6"><p className="text-sm text-slate-500">{auth.session.email}</p><div className="flex items-center gap-3"><div className={cn('rounded-full px-3 py-1 text-sm',backendConfigured?'bg-emerald-50 text-emerald-800':'bg-amber-50 text-amber-800')}>{backendConfigured?'Google Sheets connected':'Backend not configured'}</div><button className="btn-secondary gap-2" onClick={async()=>{await auth.signOut();router.push('/');}}><LogOut size={15}/> Sign out</button></div></header><div className="p-6 lg:p-8">{children}</div></main></div>}
+
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { BarChart3, CalendarDays, Database, Gauge, KeyRound, LogOut, Settings, Target, Users, WalletCards, type LucideIcon } from 'lucide-react';
+import { backendConfigured } from '@/lib/apps-script';
+import { cn } from '@/lib/utils';
+import { useAuth } from './auth/auth-provider';
+import { WorkspaceLoader } from './auth/workspace-loader';
+
+const publicPaths = ['/', '/login', '/request-access', '/welcome'];
+const links: { href: string; label: string; icon: LucideIcon; roles?: ('OWNER' | 'ADMIN' | 'EDITOR' | 'VIEWER')[] }[] = [
+  { href: '/dashboard', label: 'Overview', icon: Gauge },
+  { href: '/executives', label: 'Agent mappings', icon: Users },
+  { href: '/targets', label: 'Target fetch', icon: Target },
+  { href: '/planning', label: 'Planning', icon: CalendarDays },
+  { href: '/incentives', label: 'Incentives', icon: WalletCards },
+  { href: '/analytics', label: 'Analytics', icon: BarChart3 },
+  { href: '/sources', label: 'Sources & integrations', icon: Database, roles: ['OWNER', 'ADMIN'] },
+  { href: '/admin-access', label: 'Access requests', icon: KeyRound, roles: ['OWNER', 'ADMIN'] },
+  { href: '/settings', label: 'Settings', icon: Settings },
+];
+
+export function Shell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const path = pathname.replace(/\/+$/, '') || '/';
+  const router = useRouter();
+  const auth = useAuth();
+  const isPublic = publicPaths.includes(path);
+  useEffect(() => { if (isPublic || auth.loading) return; if (!auth.session) router.replace('/login'); else if (!auth.role) router.replace('/request-access'); }, [isPublic, auth.loading, auth.session, auth.role, router]);
+  if (isPublic) return <>{children}</>;
+  if (auth.loading) return <WorkspaceLoader verifying />;
+  if (!auth.session || !auth.role) return <WorkspaceLoader />;
+  return <div className="min-h-screen lg:grid lg:grid-cols-[250px_1fr]">
+    <aside className="border-r bg-slate-950 p-5 text-white"><div className="mb-8"><p className="text-xs font-semibold uppercase tracking-[.2em] text-blue-300">IB Operations</p><h1 className="mt-1 text-xl font-bold">Control Center</h1><p className="mt-2 text-xs text-slate-400">Role: {auth.role}</p></div><nav className="flex gap-2 overflow-auto lg:flex-col">{links.filter((link) => !link.roles || link.roles.includes(auth.role!)).map(({ href, label, icon: Icon }) => <Link key={href} href={href} className={cn('flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-slate-800', path === href && 'bg-blue-700 text-white')}><Icon size={17} />{label}</Link>)}</nav></aside>
+    <main><header className="flex h-16 items-center justify-between border-b bg-white px-6"><p className="text-sm text-slate-500">{auth.session.email}</p><div className="flex items-center gap-3"><div className={cn('rounded-full px-3 py-1 text-sm', backendConfigured ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800')}>{backendConfigured ? 'Google Sheets connected' : 'Backend not configured'}</div><button className="btn-secondary gap-2" onClick={async () => { await auth.signOut(); router.push('/'); }}><LogOut size={15} /> Sign out</button></div></header><div className="p-6 lg:p-8">{children}</div></main>
+  </div>;
+}
