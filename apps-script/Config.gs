@@ -12,7 +12,7 @@ var PLATFORM = Object.freeze({
     sources:['id','name','code','description','active','createdAt','createdBy','updatedAt','updatedBy'],
     executives:['id','employeeId','name','email','doj','status','manager','source','tenurity','active','createdAt','updatedAt'],
     managerMappings:['id','employeeId','manager','effectiveFrom','effectiveTo','active','createdAt','createdBy'],
-    monthlyMappings:['id','month','executiveId','employeeId','name','email','manager','source','tenurity','status','frozenAt','createdAt','createdBy'],
+    monthlyMappings:['id','month','executiveId','employeeId','name','email','manager','source','tenurity','status','frozenAt','createdAt','createdBy','selectedWeeks'],
     weeklyMappings:['id','weekStart','executiveId','employeeId','name','manager','source','tenurity','status','frozenAt','createdAt'],
     targetVersions:['id','source','tenurity','version','effectiveFrom','effectiveTo','revenue','login','demo','license','proPlatform','arpl','status','createdAt','createdBy'],
     weeklyTargets:['id','weekStart','executiveId','source','tenurity','targetVersion','revenue','login','demo','license','proPlatform','arpl','createdAt'],

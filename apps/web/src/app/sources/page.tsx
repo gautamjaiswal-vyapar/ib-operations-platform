@@ -6,22 +6,20 @@ import { Link2, Plus } from 'lucide-react';
 import { useAuth } from '@/components/auth/auth-provider';
 import { gasApi } from '@/lib/apps-script';
 
-type Source = { id: string; name: string; code: string; description: string; active: boolean };
+type Source = { id: string; name: string; active: boolean };
 type RevenueRow = { employeeId: string; periodType: string; period: string; revenue: number; manualRevenue: number };
 
 export default function Page() {
   const auth = useAuth();
   const queryClient = useQueryClient();
   const [name, setName] = useState('');
-  const [code, setCode] = useState('');
-  const [description, setDescription] = useState('');
   const [revenuePreview, setRevenuePreview] = useState<RevenueRow[]>([]);
   const [agentSpreadsheetId, setAgentSpreadsheetId] = useState('1m4xZqI-Y5UHBgaYPed_kbAPaUqqeDQWT3JzlhJOo6W4');
   const [agentSheetName, setAgentSheetName] = useState('agentDataDump');
   const [spreadsheetId, setSpreadsheetId] = useState('');
   const [sheetName, setSheetName] = useState('Revenue');
   const sources = useQuery({ queryKey: ['sources'], enabled: auth.isAdmin, queryFn: () => gasApi<Source[]>('sources.list') });
-  const add = useMutation({ mutationFn: () => gasApi('sources.create', { name, code, description }), onSuccess: async () => { setName(''); setCode(''); setDescription(''); await queryClient.invalidateQueries({ queryKey: ['sources'] }); } });
+  const add = useMutation({ mutationFn: () => gasApi<Source>('sources.create', { name }), onSuccess: async () => { setName(''); await queryClient.invalidateQueries({ queryKey: ['sources'] }); } });
   const configureAgents = useMutation({ mutationFn: () => gasApi<{ spreadsheetId: string; sheetName: string; rowCount: number }>('agents.dump.configure', { spreadsheetId: agentSpreadsheetId, sheetName: agentSheetName }) });
   const configureRevenue = useMutation({ mutationFn: () => gasApi('revenue.configure', { spreadsheetId, sheetName }) });
   const fetchRevenue = useMutation({ mutationFn: () => gasApi<{ rows: RevenueRow[]; count: number }>('revenue.preview'), onSuccess: (data) => setRevenuePreview(data.rows) });
@@ -35,9 +33,11 @@ export default function Page() {
     <div className="grid gap-6 xl:grid-cols-2">
       <section className="card">
         <h3 className="text-lg font-semibold">Source configuration</h3>
-        <form onSubmit={submit} className="my-4 grid gap-3"><input required placeholder="Source name" value={name} onChange={(event) => setName(event.target.value)} /><input required placeholder="Source code" value={code} onChange={(event) => setCode(event.target.value)} /><input placeholder="Description" value={description} onChange={(event) => setDescription(event.target.value)} /><button className="btn gap-2" disabled={add.isPending}><Plus size={16} /> Add source</button></form>
+        <p className="mt-1 text-sm text-slate-500">Enter only the source name. The platform generates its unique ID automatically.</p>
+        <form onSubmit={submit} className="my-4 flex gap-3"><input required className="min-w-0 flex-1" placeholder="Source name" value={name} onChange={(event) => setName(event.target.value)} /><button className="btn shrink-0 gap-2" disabled={!name.trim() || add.isPending}><Plus size={16} />{add.isPending ? 'Adding…' : 'Add source'}</button></form>
         {add.error && <p className="text-sm text-red-700">{add.error.message}</p>}
-        {sources.data?.map((source) => <div key={source.id} className="border-t py-3 text-sm"><b>{source.name}</b> <span className="text-slate-500">({source.code})</span><p>{source.description}</p></div>)}
+        {add.isSuccess && <p className="mb-3 text-sm text-emerald-700">Source created successfully.</p>}
+        {sources.data?.map((source) => <div key={source.id} className="flex items-center justify-between border-t py-3 text-sm"><b>{source.name}</b><span className="font-mono text-xs text-slate-400">ID: {source.id}</span></div>)}
       </section>
       <section className="card">
         <div className="flex items-center gap-2"><Link2 className="text-blue-700" size={20} /><h3 className="text-lg font-semibold">Executive identity connection</h3></div>

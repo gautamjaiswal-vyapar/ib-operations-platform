@@ -42,15 +42,15 @@ export default function Page() {
   const [manualRows, setManualRows] = useState<TargetInput[]>([]);
   const [pasted, setPasted] = useState('');
   const [copied, setCopied] = useState(false);
-  const targets = useQuery({ queryKey: ['targets'], queryFn: () => api<Target[]>('/targets') });
-  const parsed = useMemo(() => parsePaste<TargetInput>(pasted, aliases, (row) => {
+  const targets = useQuery({ queryKey: ['targets'], enabled: Boolean(auth.session), queryFn: () => api<Target[]>('/targets') });
+  const parsed = useMemo(() => pasted.trim() ? parsePaste<TargetInput>(pasted, aliases, (row) => {
     if (!row.source) throw new Error('Source is required.');
     if (!['M0', 'M1', 'M1+'].includes(row.tenurity)) throw new Error('Tenurity must be M0, M1, or M1+.');
     if (!/^\d{4}-\d{2}-\d{2}$/.test(row.effectiveFrom)) throw new Error('Effective From must be YYYY-MM-DD.');
     const result = { ...row, revenue: Number(row.revenue), login: Number(row.login), demo: Number(row.demo), license: Number(row.license), proPlatform: Number(row.proPlatform), arpl: Number(row.arpl) };
     if ([result.revenue, result.login, result.demo, result.license, result.proPlatform, result.arpl].some((value) => !Number.isFinite(value) || value < 0)) throw new Error('Metrics must be non-negative numbers.');
     return result;
-  }), [pasted]);
+  }) : { rows: [] as TargetInput[], errors: [] as string[] }, [pasted]);
   const batch = useMemo(() => [...manualRows, ...parsed.rows], [manualRows, parsed.rows]);
   const create = useMutation({
     mutationFn: (inputs: TargetInput[]) => api('/targets/versions/batch', { method: 'POST', body: JSON.stringify(inputs) }),

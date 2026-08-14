@@ -1,8 +1,9 @@
 function configurationMap_(){var result={};new SheetRepository_('configuration').all().forEach(function(row){result[row.key]=String(row.value);});return result;}
 function normalizeSpreadsheetId_(value){var text=String(value||'').trim();var match=text.match(/\/spreadsheets\/d\/([A-Za-z0-9_-]+)/);return match?match[1]:text;}
 function normalizedHeader_(value){return String(value||'').trim().toLowerCase().replace(/[^a-z0-9]/g,'');}
-function dateOnly_(value){if(value instanceof Date&&!isNaN(value.getTime()))return Utilities.formatDate(value,'UTC','yyyy-MM-dd');var text=String(value||'').trim();if(!text)return'';if(/^\d{4}-\d{2}-\d{2}/.test(text))return text.slice(0,10);var date=new Date(text);return isNaN(date.getTime())?'':Utilities.formatDate(date,'UTC','yyyy-MM-dd');}
-function monthOnly_(value){var date=dateOnly_(value);return date?date.slice(0,7):'';}
+function platformTimeZone_(){try{return Session.getScriptTimeZone()||'Asia/Kolkata';}catch(error){return'Asia/Kolkata';}}
+function dateOnly_(value){if(value instanceof Date&&!isNaN(value.getTime()))return Utilities.formatDate(value,platformTimeZone_(),'yyyy-MM-dd');var text=String(value||'').trim();if(!text)return'';if(/^\d{4}-\d{2}-\d{2}/.test(text))return text.slice(0,10);if(/^\d{4}-\d{2}$/.test(text))return text+'-01';var date=new Date(text);return isNaN(date.getTime())?'':Utilities.formatDate(date,platformTimeZone_(),'yyyy-MM-dd');}
+function monthOnly_(value){if(value instanceof Date&&!isNaN(value.getTime()))return Utilities.formatDate(value,platformTimeZone_(),'yyyy-MM');var text=String(value||'').trim();if(/^\d{4}-\d{2}/.test(text))return text.slice(0,7);var date=dateOnly_(value);return date?date.slice(0,7):'';}
 
 function readConnectedTable_(sheet,aliases,required){
   var lastRow=sheet.getLastRow();var lastColumn=sheet.getLastColumn();
