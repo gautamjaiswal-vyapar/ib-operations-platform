@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Link2, Plus } from 'lucide-react';
+import { CircleCheck, CircleOff, Link2, Plus } from 'lucide-react';
 import { useAuth } from '@/components/auth/auth-provider';
 import { gasApi } from '@/lib/apps-script';
 
@@ -20,6 +20,7 @@ export default function Page() {
   const [sheetName, setSheetName] = useState('Revenue');
   const sources = useQuery({ queryKey: ['sources'], enabled: auth.isAdmin, queryFn: () => gasApi<Source[]>('sources.list') });
   const add = useMutation({ mutationFn: () => gasApi<Source>('sources.create', { name }), onSuccess: async () => { setName(''); await queryClient.invalidateQueries({ queryKey: ['sources'] }); } });
+  const setStatus = useMutation({ mutationFn: (input: { id: string; active: boolean }) => gasApi<Source>('sources.status', input), onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['sources'] }); } });
   const configureAgents = useMutation({ mutationFn: () => gasApi<{ spreadsheetId: string; sheetName: string; rowCount: number }>('agents.dump.configure', { spreadsheetId: agentSpreadsheetId, sheetName: agentSheetName }) });
   const configureRevenue = useMutation({ mutationFn: () => gasApi('revenue.configure', { spreadsheetId, sheetName }) });
   const fetchRevenue = useMutation({ mutationFn: () => gasApi<{ rows: RevenueRow[]; count: number }>('revenue.preview'), onSuccess: (data) => setRevenuePreview(data.rows) });
@@ -37,7 +38,11 @@ export default function Page() {
         <form onSubmit={submit} className="my-4 flex gap-3"><input required className="min-w-0 flex-1" placeholder="Source name" value={name} onChange={(event) => setName(event.target.value)} /><button className="btn shrink-0 gap-2" disabled={!name.trim() || add.isPending}><Plus size={16} />{add.isPending ? 'Adding…' : 'Add source'}</button></form>
         {add.error && <p className="text-sm text-red-700">{add.error.message}</p>}
         {add.isSuccess && <p className="mb-3 text-sm text-emerald-700">Source created successfully.</p>}
-        {sources.data?.map((source) => <div key={source.id} className="flex items-center justify-between border-t py-3 text-sm"><b>{source.name}</b><span className="font-mono text-xs text-slate-400">ID: {source.id}</span></div>)}
+        <div className="mt-4 flex items-center justify-between border-b pb-2"><div><b>Available sources</b><p className="text-xs text-slate-500">{sources.data?.filter((source) => source.active).length ?? 0} active · {sources.data?.length ?? 0} total</p></div>{sources.isFetching && <span className="text-xs text-slate-500">Refreshing…</span>}</div>
+        {sources.error && <p className="mt-3 text-sm text-red-700">{sources.error.message}</p>}
+        {!sources.isLoading && !sources.data?.length && <p className="py-4 text-sm text-slate-500">No sources have been created.</p>}
+        {sources.data?.map((source) => <div key={source.id} className="flex flex-wrap items-center justify-between gap-3 border-b py-3 text-sm"><div className="min-w-0"><div className="flex items-center gap-2"><b>{source.name}</b><span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${source.active ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>{source.active ? 'ACTIVE' : 'INACTIVE'}</span></div><span className="block truncate font-mono text-xs text-slate-400">ID: {source.id}</span></div><button type="button" className="btn-secondary gap-2 py-1.5" disabled={setStatus.isPending} onClick={() => setStatus.mutate({ id: source.id, active: !source.active })}>{source.active ? <CircleOff size={15} /> : <CircleCheck size={15} />}{source.active ? 'Make inactive' : 'Make active'}</button></div>)}
+        {setStatus.error && <p className="mt-3 text-sm text-red-700">{setStatus.error.message}</p>}
       </section>
       <section className="card">
         <div className="flex items-center gap-2"><Link2 className="text-blue-700" size={20} /><h3 className="text-lg font-semibold">Executive identity connection</h3></div>

@@ -6,8 +6,12 @@ export type MappingCandidate = Executive & { suggestedSource: string; suggestedT
 export type Target = { _id: string; source: string; tenurity: string; version: number; effectiveFrom: string; effectiveTo?: string; revenue: number; login: number; demo: number; license: number; proPlatform: number; arpl: number; status: string };
 export type MappingInput = { month: string; executiveId?: string; newExecutive?: Omit<Executive, '_id' | 'active'> };
 export type TargetInput = Omit<Target, '_id' | 'version' | 'effectiveTo' | 'status'>;
+export type CurrentTargetRow = { sourceId: string; source: string; tenurity: string; month: string; effectiveFrom: string; previousMonth: string; revenue: number; login: number; demo: number; license: number; proPlatform: number; arpl: number; previousVersion: number; alreadyCreated: boolean };
+export type CurrentTargetMatrix = { month: string; previousMonth: string; effectiveFrom: string; rows: CurrentTargetRow[] };
+export type CurrentTargetInput = Pick<CurrentTargetRow, 'sourceId' | 'tenurity' | 'revenue' | 'login' | 'demo' | 'license' | 'proPlatform' | 'arpl'>;
+export type CreateTargetInput = { sourceId: string; tenurity: string; status: 'ACTIVE' | 'INACTIVE'; effectiveFrom: string; effectiveTo?: string; revenue: number; login: number; demo: number; license: number; proPlatform: number; arpl: number };
 export type MappingOverride = { executiveId: string; source?: string; tenurity?: string; status?: string; selectedWeeks: string[] };
-export type MappingBatchInput = { month: string; executiveIds: string[]; newExecutives: Array<Omit<Executive, '_id' | 'active'>>; overrides: MappingOverride[]; defaultSelectedWeeks: string[] };
+export type MappingBatchInput = { month: string; executiveIds: string[]; newExecutives: Array<Omit<Executive, '_id' | 'active'> & { selectedWeeks?: string[] }>; overrides: MappingOverride[]; defaultSelectedWeeks: string[] };
 
 function payload(init: RequestInit) { return init.body ? JSON.parse(String(init.body)) : {}; }
 function mapExecutive(row: any): Executive { return { ...row, _id: row.id }; }
@@ -23,7 +27,9 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (url.pathname === '/monthly-mappings' && method === 'GET') return (await gasApi<any[]>('mappings.list', { month: url.searchParams.get('month') ?? '' })).map(mapMapping) as T;
   if (url.pathname === '/monthly-mappings/batch' && method === 'POST') return (await gasApi<any[]>('mappings.batch', payload(init))).map(mapMapping) as T;
   if (url.pathname === '/targets' && method === 'GET') return (await gasApi<any[]>('targets.list')).map(mapTarget) as T;
-  if (url.pathname === '/targets/versions/batch' && method === 'POST') return (await gasApi<any[]>('targets.batch', { targets: payload(init) })).map(mapTarget) as T;
+  if (url.pathname === '/targets/current-matrix' && method === 'GET') return gasApi<T>('targets.current.matrix');
+  if (url.pathname === '/targets/current' && method === 'POST') return gasApi<T>('targets.current.create', payload(init));
+  if (url.pathname === '/targets' && method === 'POST') return gasApi<T>('targets.create', payload(init));
   if (url.pathname === '/incentives' && method === 'GET') return gasApi<T>('incentives.list', { month: url.searchParams.get('month') ?? '' });
   if (url.pathname === '/incentives/calculate' && method === 'POST') return gasApi<T>('incentives.calculate', { month: url.searchParams.get('month') ?? '' });
   if (url.pathname === '/incentives/export' && method === 'POST') return gasApi<T>('incentives.export', { month: url.searchParams.get('month') ?? '' });
