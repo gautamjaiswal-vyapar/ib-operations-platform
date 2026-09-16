@@ -12,6 +12,11 @@ export type CurrentTargetInput = Pick<CurrentTargetRow, 'sourceId' | 'tenurity' 
 export type CreateTargetInput = { sourceId: string; tenurity: string; status: 'ACTIVE' | 'INACTIVE'; effectiveFrom: string; effectiveTo?: string; revenue: number; login: number; demo: number; license: number; proPlatform: number; arpl: number };
 export type MappingOverride = { executiveId: string; source?: string; tenurity?: string; status?: string; selectedWeeks: string[] };
 export type MappingBatchInput = { month: string; executiveIds: string[]; newExecutives: Array<Omit<Executive, '_id' | 'active'> & { selectedWeeks?: string[] }>; overrides: MappingOverride[]; defaultSelectedWeeks: string[] };
+export type IncentiveRuleLevel = 'AGENT' | 'TEAM_LEAD' | 'TL_INCENTIVE' | 'BONUS_4_WEEK' | 'BONUS_5_WEEK' | 'TL_BONUS';
+export type IncentiveSlab = { threshold: number; amount: number };
+export type IncentiveRuleSet = { level: IncentiveRuleLevel; version: number; effectiveFrom: string; effectiveTo: string; status: 'SYSTEM_DEFAULT' | 'SCHEDULED' | 'ACTIVE' | 'ARCHIVED'; reason: string; createdAt?: string; createdBy?: string; slabs: IncentiveSlab[] };
+export type IncentiveRuleResponse = { agent: IncentiveRuleSet; teamLead: IncentiveRuleSet; tlIncentive: IncentiveRuleSet; fourWeekBonus: IncentiveRuleSet; fiveWeekBonus: IncentiveRuleSet; tlBonus: IncentiveRuleSet; history: IncentiveRuleSet[] };
+export type CreateIncentiveRuleVersion = { level: IncentiveRuleLevel; effectiveFrom: string; effectiveTo?: string; reason: string; slabs: Array<{ thresholdPercent: number; amount: number }> };
 
 function payload(init: RequestInit) { return init.body ? JSON.parse(String(init.body)) : {}; }
 function mapExecutive(row: any): Executive { return { ...row, _id: row.id }; }
@@ -31,6 +36,8 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (url.pathname === '/targets/current' && method === 'POST') return gasApi<T>('targets.current.create', payload(init));
   if (url.pathname === '/targets' && method === 'POST') return gasApi<T>('targets.create', payload(init));
   if (url.pathname === '/incentives' && method === 'GET') return gasApi<T>('incentives.list', { month: url.searchParams.get('month') ?? '' });
+  if (url.pathname === '/incentives/rules' && method === 'GET') return gasApi<T>('incentives.rules.list');
+  if (url.pathname === '/incentives/rules' && method === 'POST') return gasApi<T>('incentives.rules.create', payload(init));
   if (url.pathname === '/incentives/calculate' && method === 'POST') return gasApi<T>('incentives.calculate', { month: url.searchParams.get('month') ?? '' });
   if (url.pathname === '/incentives/export' && method === 'POST') return gasApi<T>('incentives.export', { month: url.searchParams.get('month') ?? '' });
   if (url.pathname === '/planning/weekly' && method === 'POST') return gasApi<T>('planning.generate', { kind: 'weekly' });
