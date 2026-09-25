@@ -39,10 +39,11 @@ Headers are centrally defined in `apps-script/Config.gs`. Repositories read thos
 configurePlatform('GOOGLE_SPREADSHEET_ID');
 ```
 
-The function creates every required tab inside that one workbook and seeds `gautam.jaiswal@vyapar.com` as OWNER. Next, set the OWNER password interactively in the Apps Script editor; do not add it to source code or GitHub:
+The function creates every required tab inside that one workbook and seeds `gautam.jaiswal@vyapar.com` and `aryan.sachdeva@vyapar.com` as OWNER. Next, set the OWNER password interactively in the Apps Script editor; do not add it to source code or GitHub:
 
 ```javascript
 setOwnerPassword('enter-a-strong-password-here-at-runtime');
+setAryanOwnerPassword('enter-a-separate-strong-password-here-at-runtime');
 ```
 
 After the run, clear the editor’s execution input/history as required by your organization. The workbook stores only the resulting salted password hash.
@@ -115,10 +116,10 @@ npm audit
 
 ## Role behavior
 
-- **OWNER:** unrestricted platform access; initially assigned to `gautam.jaiswal@vyapar.com`
+- **OWNER:** unrestricted platform access; initially assigned to `gautam.jaiswal@vyapar.com` and `aryan.sachdeva@vyapar.com`
 - **VIEWER:** dashboards, mappings, targets, planning results, incentives, and analytics
-- **EDITOR:** VIEWER permissions plus batch mappings, target versions, snapshots, and incentive calculation
-- **ADMIN:** all permissions plus access approvals, source configuration, and agent dump preview/import
+- **EDITOR:** VIEWER permissions plus batch mappings, connected Sheet agent preview/import, target versions, snapshots, and incentive calculation
+- **ADMIN:** all permissions plus access approvals and source configuration
 
 Target history is append-versioned. Creating a newer source/tenurity target closes the previous version one day before the new effective date and marks it inactive. Monthly and weekly mapping records preserve their own source, manager, and tenurity values for historical reporting.
 
@@ -130,7 +131,7 @@ The platform auto-discovers a populated Google Sheet connection using these head
 
 The supplied query is stored at `sql/agent_latest.sql` and runs through Google Connected Sheets. BigQuery refresh is owned and scheduled in Google Sheets (recommended at 01:00 Asia/Kolkata); Apps Script never requests BigQuery permission. On preview/import and by its 02:00 daily trigger, Apps Script reads the cached named data-source columns and batch-copies them into the standard `agentDataDump` grid. If the Connected Sheet is temporarily unavailable, the last successful mirror is retained. An ADMIN can pin a different spreadsheet/tab under **Sources & integrations**, while missing or invalid configuration falls back to header-driven discovery.
 
-From **Executives → Batch add → Connected sheet**, **Fetch active agents** reads the query result without modifying master data. The mapping Month is user-selected; query `data_month` is freshness metadata. Connected Manager values are used unless the user supplies a batch override. Source, Status, and Updated At remain explicit user inputs. Tenurity is never derived from DOJ: an explicit `M0`, `M1`, or `M1+` selection changes it, while leaving the selector blank preserves the existing value. A selection is required for new executives or records without a valid stored tenurity. After confirmation, selected rows are bulk-upserted into `executives` and selected for the chosen `monthlyMappings` snapshot. Imports are recorded in `sheetImports` and `auditLogs`. The application does not query BigQuery directly, enable the BigQuery advanced service, or store BigQuery credentials.
+From **Executives → Batch add → Connected sheet**, an EDITOR, ADMIN, or OWNER can use **Fetch active agents** to read the query result without modifying master data. The mapping Month is user-selected; query `data_month` is freshness metadata. Connected Manager values are used unless the user supplies a batch override. Source, Status, and Updated At remain explicit user inputs. Tenurity is never derived from DOJ: an explicit `M0`, `M1`, or `M1+` selection changes it, while leaving the selector blank preserves the existing value. A selection is required for new executives or records without a valid stored tenurity. After confirmation, selected rows are bulk-upserted into `executives` and selected for the chosen `monthlyMappings` snapshot. Imports are recorded in `sheetImports` and `auditLogs`. The application does not query BigQuery directly, enable the BigQuery advanced service, or store BigQuery credentials.
 
 ## Revenue sheet connection
 

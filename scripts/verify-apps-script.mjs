@@ -61,5 +61,9 @@ if(vm.runInContext("targetRangesOverlap_('2026-08-01','2026-08-31','2026-09-01',
 const manifest=JSON.parse(fs.readFileSync(path.join(directory,'appsscript.json'),'utf8'));
 if(manifest.runtimeVersion!=='V8')throw new Error('Apps Script V8 runtime is required.');
 if(source.includes('DriveApp.'))throw new Error('Incentive export must use the existing Spreadsheet scope instead of broad Drive access.');
-if(!source.includes("email='gautam.jaiswal@vyapar.com'"))throw new Error('Configured OWNER account is missing.');
+if(!source.includes("email:'gautam.jaiswal@vyapar.com'")||!source.includes("email:'aryan.sachdeva@vyapar.com'"))throw new Error('Configured OWNER accounts are missing.');
+const apiRoute=fs.readFileSync(path.join(directory,'Api.gs'),'utf8');
+const editorGate=apiRoute.indexOf("requireRole_(context,['ADMIN','EDITOR']);");
+const adminGate=apiRoute.indexOf("requireRole_(context,['ADMIN']);");
+for(const action of ['agents.dump.preview','agents.dump.import'])if(!(editorGate<apiRoute.indexOf("action==='"+action+"'")&&apiRoute.indexOf("action==='"+action+"'")<adminGate))throw new Error(action+' must be available to EDITOR before the ADMIN gate.');
 console.log(`Verified ${files.length} Apps Script files and ${Object.keys(manifest).length} manifest sections.`);
