@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from './auth/auth-provider';
 import { WorkspaceLoader } from './auth/workspace-loader';
 
-const publicPaths = ['/', '/login', '/request-access', '/welcome'];
+const publicPaths = ['/', '/login', '/request-access', '/welcome', '/agent-performance'];
 const links: { href: string; label: string; icon: LucideIcon; roles?: ('OWNER' | 'ADMIN' | 'EDITOR' | 'VIEWER')[] }[] = [
   { href: '/dashboard', label: 'Overview', icon: Gauge },
   { href: '/executives', label: 'Agent mappings', icon: Users },

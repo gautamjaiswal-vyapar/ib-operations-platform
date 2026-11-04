@@ -26,9 +26,23 @@ The workflow installs dependencies, creates the Next.js static export, uploads `
 
 ## Apps Script variable
 
-Create an Actions repository variable named `APPS_SCRIPT_URL` for the main operations API. It is injected into the static IB Operations build as a browser-facing web-app endpoint. Authentication credentials, password hashes, role mappings, and session-token hashes remain in the configured backend Google Spreadsheet.
+Create these Actions repository variables:
 
-The IPT Agent Performance dashboard is deployed as a separate public snapshot under `/agent-performance/`. It does not use the IB Operations Platform's sheet-based authentication. Its reviewed snapshot contains agent-level performance data and must be treated as public until independent access control is introduced.
+- `APPS_SCRIPT_URL` for the main operations API.
+- `IPT_API_URL` for the independent IPT data API deployment in `agent-performance-dashboard/apps-script-webapp/`. Do not point this variable at the IB Operations API.
+- `IPT_GOOGLE_CLIENT_ID` for the Google Identity Services Web client. Add the final GitHub Pages origin to its authorized JavaScript origins.
+
+The variables are injected into the static build. Google ID tokens are verified server-side before the IPT API issues a short-lived dashboard session.
+
+The current isolated IPT API deployment is:
+
+```text
+https://script.google.com/macros/s/AKfycbxhGsGcj35_gidMS2uXvS6CFmVvK20xUKNpPKi6FaLRdkXgCmFaJQDTR829j8xijRWY/exec
+```
+
+Create a Google OAuth 2.0 **Web application** client with `https://gautamjaiswal-vyapar.github.io` as an authorized JavaScript origin. Use its client ID for the `IPT_GOOGLE_CLIENT_ID` repository variable and call `setIptGoogleClientId('CLIENT_ID')` once in the dedicated Apps Script editor. The backend compares the ID token audience with this property; entering an email alone never grants access.
+
+The IPT Agent Performance dashboard is deployed under `/agent-performance/` but remains independent of the IB Operations Platform's sheet-based authentication. Verified users are recorded in the IPT spreadsheet `Users` sheet. `ADMIN` sees all rows, `TL` sees rows assigned to that team lead, and `AGENT` sees only rows matching the verified email. The shared cache refreshes four times daily at 10:00, 14:00, 18:00, and 22:00 IST; open dashboards poll every five minutes. Deploy the dedicated script, set its `IPT_GOOGLE_CLIENT_ID` Script Property with `setIptGoogleClientId(...)`, and run `installDashboardCacheTriggers()` once.
 
 Before deploying the frontend, upload `apps-script/`, run `configurePlatform('GOOGLE_SPREADSHEET_ID')`, run `setOwnerPassword(...)` interactively, and deploy the Apps Script project as a web app. Without `APPS_SCRIPT_URL`, protected platform operations remain unavailable. Executive identities are discovered or configured from a Google Sheet grid with `data_month`, `employee_id`, `executive_name`, `email`, `doj`, and `manager`; operational Source, Status, and Updated At values are supplied during the audited import. The Connected Sheets SQL lives in `sql/agent_latest.sql`, but the application itself has no direct BigQuery runtime dependency.
 
