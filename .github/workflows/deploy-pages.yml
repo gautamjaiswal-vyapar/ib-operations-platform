@@ -24,7 +24,7 @@ jobs:
           # The repository variable can override the endpoint for future deployments.
           # The fallback keeps GitHub Pages functional when the variable is not configured.
           NEXT_PUBLIC_APPS_SCRIPT_URL: ${{ vars.APPS_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbwR6fmUEHwtHFM6qRNfNN5Im6opSgDtb1xI25cQFmzEP_e71sdebGuCtHf9CE63Py6SbQ/exec' }}
-          NEXT_PUBLIC_IPT_API_URL: ${{ vars.IPT_API_URL }}
+          NEXT_PUBLIC_IPT_API_URL: ${{ vars.IPT_API_URL || 'https://script.google.com/macros/s/AKfycbxhGsGcj35_gidMS2uXvS6CFmVvK20xUKNpPKi6FaLRdkXgCmFaJQDTR829j8xijRWY/exec' }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/out
