@@ -1,0 +1,45 @@
+.agent-performance-page { display: grid; gap: 28px; padding-block: 24px 56px; color: var(--text); }
+.agent-command { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 26px 28px; border: 1px solid color-mix(in srgb, var(--chart-1) 32%, var(--border)); border-radius: 24px; background: radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--chart-1) 15%, transparent), transparent 42%), linear-gradient(135deg, #0c1b26, #111d28 58%, #172231); box-shadow: 0 22px 60px rgb(0 0 0 / 32%); }
+.agent-command h1 { margin: 4px 0 6px; font-size: clamp(30px, 4vw, 48px); line-height: .98; letter-spacing: -.045em; text-transform: capitalize; }
+.agent-command p { margin: 0; color: var(--secondary); }
+.agent-kicker { color: var(--chart-1); font-size: 12px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.agent-controls { display: flex; align-items: end; flex-wrap: wrap; gap: 12px; }
+.agent-score-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.agent-metric { min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); color: var(--text); text-align: left; cursor: pointer; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+.agent-metric:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--chart-1) 50%, var(--border)); }
+.agent-metric:focus-visible { outline: 3px solid color-mix(in srgb, var(--chart-1) 40%, transparent); outline-offset: 2px; }
+.agent-metric[data-active] { border-color: var(--chart-1); box-shadow: 0 12px 32px color-mix(in srgb, var(--chart-1) 12%, transparent); }
+.agent-metric-label, .agent-metric-target, .agent-metric-foot, .agent-metric-change { display: block; }
+.agent-metric-label { color: var(--secondary); font-size: 13px; font-weight: 700; }
+.agent-metric strong { display: block; margin-top: 9px; font-size: 34px; line-height: 1; letter-spacing: -.04em; }
+.agent-metric-target { margin-top: 7px; color: var(--secondary); font-size: 12px; }
+.agent-meter { display: block; height: 5px; margin: 15px 0 10px; overflow: hidden; border-radius: 99px; background: var(--muted); }
+.agent-meter i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--chart-1), var(--chart-3)); }
+.agent-metric-foot { min-height: 17px; font-size: 12px; font-weight: 700; }
+.agent-metric-foot[data-tone="neutral"] { color: var(--secondary); }.agent-metric-foot[data-tone="positive"] { color: var(--positive); }.agent-metric-foot[data-tone="negative"] { color: var(--negative); }
+.agent-metric-change { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 11px; font-weight: 750; }.agent-metric-change[data-tone="neutral"] { color: var(--secondary); }.agent-metric-change[data-tone="positive"] { color: var(--positive); }.agent-metric-change[data-tone="negative"] { color: var(--negative); }
+.agent-distribution-toggle { min-height: 40px; padding: 0 15px; border: 1px solid color-mix(in srgb, var(--chart-1) 55%, var(--border)); border-radius: var(--control-radius); background: color-mix(in srgb, var(--chart-1) 12%, var(--control)); color: var(--text); font-weight: 750; cursor: pointer; }.agent-distribution-toggle:hover { background: color-mix(in srgb, var(--chart-1) 20%, var(--control)); }.agent-distribution-toggle:focus-visible { outline: 3px solid color-mix(in srgb, var(--chart-1) 42%, transparent); outline-offset: 2px; }
+.agent-analysis-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(320px, .8fr); gap: 20px; align-items: stretch; }
+.agent-target-comparison { grid-column: 1 / -1; min-width: 0; }
+.agent-funnel { display: grid; gap: 18px; padding-top: 8px; }.agent-funnel-step > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }.agent-funnel-step span { color: var(--secondary); font-size: 13px; font-weight: 700; }.agent-funnel-step strong { font-size: 20px; }.agent-funnel-track { height: 12px; margin-top: 7px; overflow: hidden; border-radius: 4px; background: var(--muted); }.agent-funnel-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--chart-1), var(--chart-2)); }.agent-funnel-step small { display: block; margin-top: 5px; color: var(--secondary); font-size: 11px; text-align: right; }
+.agent-roster-section { display: grid; gap: 18px; }
+@media (max-width: 960px) { .agent-score-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .agent-analysis-grid { grid-template-columns: 1fr; } }
+@media (max-width: 680px) { .agent-performance-page { gap: 20px; padding-top: 16px; } .agent-command { align-items: stretch; flex-direction: column; padding: 22px 18px; } .agent-controls { display: grid; grid-template-columns: 1fr; } .agent-score-grid { grid-template-columns: 1fr; } .agent-metric { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { .agent-metric { transition: none; } }
+
+/* Production operations layout: compact, scalable, and information-first. */
+.agent-performance-page { gap: 20px; padding-block: 18px 48px; }
+.agent-command { padding: 18px 20px; border-color: var(--border); border-radius: 12px; background: linear-gradient(135deg, #0c1923, #101e29); box-shadow: var(--card-shadow); }
+.agent-command h1 { font-size: clamp(25px, 3vw, 34px); line-height: 1.05; letter-spacing: -.03em; }
+.agent-kicker { font-size: 11px; letter-spacing: .11em; }
+.agent-period-notice { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid color-mix(in srgb, var(--chart-4) 38%, var(--border)); border-radius: 9px; background: color-mix(in srgb, var(--chart-4) 7%, var(--surface)); color: var(--secondary); font-size: 12px; }
+.agent-period-notice strong { color: var(--text); }
+.agent-score-grid { gap: 10px; }
+.agent-metric { padding: 15px 16px; border-radius: 12px; background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, var(--chart-1)), var(--surface)); transition: border-color 140ms ease, background 140ms ease; }
+.agent-metric:hover { transform: none; background: color-mix(in srgb, var(--chart-1) 6%, var(--surface)); }
+.agent-metric[data-active] { box-shadow: inset 3px 0 0 var(--chart-1); }
+.agent-metric strong { font-size: 30px; }
+.agent-analysis-grid { grid-template-columns: minmax(0, 1.55fr) minmax(300px, .75fr); gap: 16px; }
+.agent-funnel-track { height: 14px; border-radius: 3px; }
+.agent-funnel-track i { box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%); }
+@media (max-width: 680px) { .agent-period-notice { align-items: flex-start; flex-direction: column; gap: 3px; } }

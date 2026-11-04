@@ -1,0 +1,47 @@
+:root {
+  color-scheme: light dark;
+  --adaptive-theme: 1;
+  --font-sans-default: -apple-system-body, ui-sans-serif, -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-sans: var(--vscode-font-family, var(--font-sans-default));
+  --background: var(--color-token-main-surface-primary, var(--color-background-surface, light-dark(#f8fafc, #0f172a)));
+  --surface: var(--color-background-elevated-secondary-opaque, light-dark(#ffffff, #111827));
+  --surface-raised: var(--color-token-dropdown-background, light-dark(#fff, #282828));
+  --muted: light-dark(#f7f7f7, #282828);
+  --control: var(--color-background-control-opaque, light-dark(#fff, #212121));
+  --control-hover: light-dark(#f2f2f2, #303030);
+  --interaction-hover: var(--muted);
+  --interaction-active: var(--control-hover);
+  --text: var(--color-token-foreground, var(--color-text-foreground, light-dark(#0f172a, #f8fafc)));
+  --secondary: var(--color-token-description-foreground, light-dark(#64748b, #94a3b8));
+  --border: var(--color-token-border, var(--color-border, light-dark(#e2e8f0, #334155)));
+  --border-strong: var(--color-border-heavy, light-dark(#cbd5e1, #475569));
+  --accent: var(--color-text-accent, light-dark(#1d4ed8, #60a5fa));
+  --positive: var(--color-text-success, light-dark(#00a240, #40c977));
+  --negative: var(--color-text-error, light-dark(#e02e2a, #ff6764));
+  --chart-1: light-dark(#2563eb, #60a5fa);
+  --chart-2: light-dark(#924ff7, #ad7bf9);
+  --chart-3: light-dark(#16a34a, #4ade80);
+  --chart-4: light-dark(#fb6a22, #ff8549);
+  --chart-5: light-dark(#ff66ad, #ff8cc1);
+  --chart-6: light-dark(#ffc300, #ffd240);
+  --chart-7: light-dark(#fa423e, #ff6764);
+  --chart-8: light-dark(#8f8f8f, #afafaf);
+  --chart-neutral-fill: color-mix(in srgb, var(--text) 3%, var(--surface));
+  --ranked-list-fill: color-mix(in srgb, var(--chart-1) 16%, var(--surface));
+  --ranked-list-fill-hover: color-mix(in srgb, var(--chart-1) 24%, var(--surface));
+  --movement-positive: color-mix(in srgb, var(--positive) 75%, var(--text));
+  --movement-negative: color-mix(in srgb, var(--negative) 75%, var(--text));
+  --movement-total: var(--secondary);
+  --card-radius: 10px;
+  --data-card-radius: 12px;
+  --data-card-background: var(--background);
+  --control-radius: 12px;
+  --mark-radius: 8;
+  --card-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+  --shadow: 0 8px 16px -4px rgb(0 0 0 / 12%);
+}
+
+:root:not([data-app-theme]),
+:root:is([data-app-theme="original"], [data-app-theme="codex-classic"]) {
+  --dashboard-background: light-dark(color-mix(in srgb, var(--background) 98.6%, var(--text)), var(--background));
+}
