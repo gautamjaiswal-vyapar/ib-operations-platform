@@ -84,6 +84,7 @@ Set the public integration value in `apps/web/.env.local`:
 
 ```env
 NEXT_PUBLIC_APPS_SCRIPT_URL=https://script.google.com/macros/s/DEPLOYMENT_ID/exec
+NEXT_PUBLIC_IPT_AGENT_DASHBOARD_URL=https://script.google.com/a/macros/vyapar.com/s/IPT_DEPLOYMENT_ID/exec
 ```
 
 Then run:
@@ -99,11 +100,11 @@ Open `http://localhost:3000` and sign in as `gautam.jaiswal@vyapar.com` with the
 In the GitHub repository:
 
 1. Open **Settings → Secrets and variables → Actions → Variables**.
-2. Add `APPS_SCRIPT_URL`.
+2. Add `APPS_SCRIPT_URL` and `IPT_AGENT_DASHBOARD_URL`.
 3. Open **Settings → Pages** and select **GitHub Actions** as the source.
 4. Run the **Deploy GitHub Pages** workflow or push to `main`.
 
-The deployment workflow builds a static site and injects only the browser-facing Apps Script deployment URL.
+The deployment workflow builds a static site and injects only the browser-facing Apps Script deployment URLs. The IPT launcher does not package employee data into GitHub Pages; the dashboard continues to read protected data through its domain-restricted Apps Script deployment.
 
 ## Validation
 

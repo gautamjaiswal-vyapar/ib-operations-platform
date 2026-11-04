@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { BarChart3, CalendarDays, Database, Gauge, KeyRound, LogOut, Settings, Target, Users, WalletCards, type LucideIcon } from 'lucide-react';
+import { Activity, BarChart3, CalendarDays, Database, Gauge, KeyRound, LogOut, Settings, Target, Users, WalletCards, type LucideIcon } from 'lucide-react';
 import { backendConfigured } from '@/lib/apps-script';
 import { cn } from '@/lib/utils';
 import { useAuth } from './auth/auth-provider';
@@ -17,6 +17,7 @@ const links: { href: string; label: string; icon: LucideIcon; roles?: ('OWNER' |
   { href: '/planning', label: 'Planning', icon: CalendarDays },
   { href: '/incentives', label: 'Incentives', icon: WalletCards },
   { href: '/analytics', label: 'Analytics', icon: BarChart3 },
+  { href: '/agent-performance', label: 'IPT performance', icon: Activity },
   { href: '/sources', label: 'Sources & integrations', icon: Database, roles: ['OWNER', 'ADMIN'] },
   { href: '/admin-access', label: 'Access requests', icon: KeyRound, roles: ['OWNER', 'ADMIN'] },
   { href: '/settings', label: 'Settings', icon: Settings },

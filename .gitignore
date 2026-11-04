@@ -16,3 +16,4 @@ coverage
 .clasp.json
 /home.py
 /*.zip
+agent-performance-dashboard/src/data.json
