@@ -1,5 +1,9 @@
 node_modules
 dist
+!ipt-operations-platform/dist/
+!ipt-operations-platform/dist/**
+!agent-performance-dashboard/dist/
+!agent-performance-dashboard/dist/**
 .next
 out
 coverage

@@ -1,0 +1,2039 @@
+{
+  "surface": "dashboard",
+  "title": "IPT customer intelligence",
+  "generatedAt": "2026-10-23T10:11:12Z",
+  "buildStatus": "complete",
+  "status": "observed",
+  "filters": [
+    {
+      "id": "leadSource",
+      "label": "Lead source",
+      "field": "leadSource",
+      "defaultValue": "all",
+      "queryIds": [
+        "customer_leads"
+      ]
+    },
+    {
+      "id": "stage",
+      "label": "Customer stage",
+      "field": "stage",
+      "defaultValue": "all",
+      "queryIds": [
+        "customer_leads"
+      ]
+    },
+    {
+      "id": "deviceState",
+      "label": "Device state",
+      "field": "deviceState",
+      "defaultValue": "all",
+      "queryIds": [
+        "customer_leads"
+      ]
+    }
+  ],
+  "queries": {
+    "customer_leads": {
+      "rows": [
+        {
+          "leadId": "238228",
+          "leadSource": "Desktop",
+          "deviceState": "desktop_only",
+          "callCount": 1,
+          "talkMinutes": 2.6,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 70.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": true,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed"
+          ],
+          "objections": [
+            "price_objection"
+          ],
+          "intentScore": 61.83,
+          "stage": "objection_handling",
+          "recommendedPlan": "desktop_plan"
+        },
+        {
+          "leadId": "238234",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 2.5,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 70.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "callback_requested"
+          ],
+          "objections": [],
+          "intentScore": 63.69,
+          "stage": "demo_required",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238238",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 2.4,
+          "maxIntent": 3.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 50.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [
+            "pricing_discussed",
+            "purchase_signal"
+          ],
+          "objections": [
+            "price_objection"
+          ],
+          "intentScore": 48.83,
+          "stage": "objection_handling",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238243",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 6,
+          "talkMinutes": 3.3,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [
+            "pricing_discussed"
+          ],
+          "objections": [],
+          "intentScore": 70.98,
+          "stage": "plan_discussed",
+          "recommendedPlan": "Only Mobile (3 yr)"
+        },
+        {
+          "leadId": "238247",
+          "leadSource": "META_LEADS",
+          "deviceState": "unknown",
+          "callCount": 4,
+          "talkMinutes": 13.1,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 75.0,
+          "agentsSpokenTo": 3,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": true,
+          "requirements": [
+            "desktop",
+            "accounting",
+            "billing",
+            "mobile",
+            "multi_device",
+            "multi_business",
+            "multi_location"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested",
+            "purchase_signal"
+          ],
+          "objections": [
+            "price_objection"
+          ],
+          "intentScore": 90.5,
+          "stage": "objection_handling",
+          "recommendedPlan": "desktop_multi_location_plan"
+        },
+        {
+          "leadId": "238258",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 1.2,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 17.6,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238259",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 3.0,
+          "maxIntent": 2.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 30.0,
+          "latestEngagement": 20.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested"
+          ],
+          "objections": [
+            "not_interested"
+          ],
+          "intentScore": 35.04,
+          "stage": "cold_not_interested",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238263",
+          "leadSource": "META_LEADS",
+          "deviceState": "unknown",
+          "callCount": 1,
+          "talkMinutes": 1.4,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 20.0,
+          "latestEngagement": 20.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_business",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [
+            "not_interested"
+          ],
+          "intentScore": 18.88,
+          "stage": "cold_not_interested",
+          "recommendedPlan": "higher_value_business_plan"
+        },
+        {
+          "leadId": "238265",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 3,
+          "talkMinutes": 4.8,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 74.14,
+          "stage": "interested",
+          "recommendedPlan": "Only Desktop (3 yr)"
+        },
+        {
+          "leadId": "238266",
+          "leadSource": "META_LEADS",
+          "deviceState": "unknown",
+          "callCount": 2,
+          "talkMinutes": 2.8,
+          "maxIntent": 2.0,
+          "latestIntent": 2.0,
+          "maxEngagement": 40.0,
+          "latestEngagement": 30.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "billing",
+            "quotation"
+          ],
+          "intentTags": [
+            "callback_requested"
+          ],
+          "objections": [
+            "busy_or_later"
+          ],
+          "intentScore": 37.66,
+          "stage": "follow_up_required",
+          "recommendedPlan": "discovery_required"
+        },
+        {
+          "leadId": "238280",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 3,
+          "talkMinutes": 2.9,
+          "maxIntent": 4.0,
+          "latestIntent": 2.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 30.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "desktop",
+            "multi_device",
+            "accounting",
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "callback_requested"
+          ],
+          "objections": [],
+          "intentScore": 71.29,
+          "stage": "demo_required",
+          "recommendedPlan": "desktop_plus_mobile_plan"
+        },
+        {
+          "leadId": "238282",
+          "leadSource": "TIKTOK_LEADS",
+          "deviceState": "mobile_only",
+          "callCount": 5,
+          "talkMinutes": 5.6,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "mobile",
+            "billing",
+            "gst_tax"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "callback_requested",
+            "comparison_signal"
+          ],
+          "objections": [
+            "already_using_software"
+          ],
+          "intentScore": 74.45,
+          "stage": "objection_handling",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238287",
+          "leadSource": "TIKTOK_LEADS",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 3.7,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 70.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device"
+          ],
+          "intentTags": [
+            "demo_requested"
+          ],
+          "objections": [
+            "busy_or_later"
+          ],
+          "intentScore": 70.62,
+          "stage": "demo_required",
+          "recommendedPlan": "desktop_plus_mobile_plan"
+        },
+        {
+          "leadId": "238288",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 1,
+          "talkMinutes": 0.7,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 14.84,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238295",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 5,
+          "talkMinutes": 6.1,
+          "maxIntent": 3.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 50.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 3,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 60.34,
+          "stage": "interested",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238297",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 1,
+          "talkMinutes": 1.6,
+          "maxIntent": 3.0,
+          "latestIntent": 3.0,
+          "maxEngagement": 50.0,
+          "latestEngagement": 50.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 45.59,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238298",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 7,
+          "talkMinutes": 7.0,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 20.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested"
+          ],
+          "objections": [],
+          "intentScore": 35.24,
+          "stage": "demo_required",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238300",
+          "leadSource": "TECH_JOCKEY_IB",
+          "deviceState": "unknown",
+          "callCount": 6,
+          "talkMinutes": 4.7,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 5.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "quotation"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "callback_requested"
+          ],
+          "objections": [],
+          "intentScore": 73.11,
+          "stage": "demo_required",
+          "recommendedPlan": "discovery_required"
+        },
+        {
+          "leadId": "238307",
+          "leadSource": "TIKTOK_LEADS",
+          "deviceState": "unknown",
+          "callCount": 2,
+          "talkMinutes": 2.2,
+          "maxIntent": 3.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 50.0,
+          "latestEngagement": 5.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "billing"
+          ],
+          "intentTags": [
+            "callback_requested"
+          ],
+          "objections": [],
+          "intentScore": 48.53,
+          "stage": "follow_up_required",
+          "recommendedPlan": "discovery_required"
+        },
+        {
+          "leadId": "238308",
+          "leadSource": "VYAPAR_LANDING_PAGE_LEADS",
+          "deviceState": "unknown",
+          "callCount": 1,
+          "talkMinutes": 1.0,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 15.31,
+          "stage": "contacted",
+          "recommendedPlan": "discovery_required"
+        },
+        {
+          "leadId": "238309",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 2.0,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 20.0,
+          "latestEngagement": 20.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 21.8,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238311",
+          "leadSource": "TIKTOK_LEADS",
+          "deviceState": "desktop_only",
+          "callCount": 2,
+          "talkMinutes": 10.0,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 75.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device",
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested"
+          ],
+          "objections": [
+            "not_interested"
+          ],
+          "intentScore": 81.44,
+          "stage": "cold_not_interested",
+          "recommendedPlan": "desktop_plus_mobile_plan"
+        },
+        {
+          "leadId": "238312",
+          "leadSource": "TIKTOK_LEADS",
+          "deviceState": "unknown",
+          "callCount": 6,
+          "talkMinutes": 8.1,
+          "maxIntent": 3.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 50.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [
+            "busy_or_later"
+          ],
+          "intentScore": 63.47,
+          "stage": "follow_up_required",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238313",
+          "leadSource": "META_LEADS",
+          "deviceState": "unknown",
+          "callCount": 2,
+          "talkMinutes": 1.3,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "callback_requested"
+          ],
+          "objections": [],
+          "intentScore": 17.7,
+          "stage": "follow_up_required",
+          "recommendedPlan": "discovery_required"
+        },
+        {
+          "leadId": "238325",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 7,
+          "talkMinutes": 17.0,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "inventory",
+            "accounting",
+            "mobile",
+            "billing",
+            "multi_device",
+            "multi_business"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested",
+            "purchase_signal"
+          ],
+          "objections": [
+            "price_objection",
+            "busy_or_later",
+            "not_interested"
+          ],
+          "intentScore": 87.5,
+          "stage": "cold_not_interested",
+          "recommendedPlan": "Only Mobile (1 yr)"
+        },
+        {
+          "leadId": "238326",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 3,
+          "talkMinutes": 1.2,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 19.6,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238327",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 1,
+          "talkMinutes": 1.2,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 15.53,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238330",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 5.0,
+          "maxIntent": 2.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 40.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device",
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [
+            "pricing_discussed",
+            "callback_requested"
+          ],
+          "objections": [
+            "price_objection"
+          ],
+          "intentScore": 46.07,
+          "stage": "objection_handling",
+          "recommendedPlan": "Only Mobile (1 yr)"
+        },
+        {
+          "leadId": "238335",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 3,
+          "talkMinutes": 1.6,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 20.0,
+          "latestEngagement": 5.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 23.16,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238339",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 4,
+          "talkMinutes": 28.8,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 75.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "desktop",
+            "inventory",
+            "accounting",
+            "billing",
+            "mobile",
+            "multi_device",
+            "multi_business"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested",
+            "purchase_signal"
+          ],
+          "objections": [
+            "price_objection"
+          ],
+          "intentScore": 85.5,
+          "stage": "objection_handling",
+          "recommendedPlan": "Only Desktop (1 yr)"
+        },
+        {
+          "leadId": "238341",
+          "leadSource": "TECH_JOCKEY_IB",
+          "deviceState": "unknown",
+          "callCount": 3,
+          "talkMinutes": 3.0,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested"
+          ],
+          "objections": [],
+          "intentScore": 66.52,
+          "stage": "demo_required",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238345",
+          "leadSource": "TIKTOK_LEADS",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 5.7,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 70.0,
+          "latestEngagement": 70.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": true,
+          "requirements": [
+            "desktop",
+            "accounting",
+            "billing",
+            "mobile",
+            "multi_location"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested"
+          ],
+          "objections": [
+            "price_objection",
+            "busy_or_later"
+          ],
+          "intentScore": 73.6,
+          "stage": "objection_handling",
+          "recommendedPlan": "desktop_multi_location_plan"
+        },
+        {
+          "leadId": "238347",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 1,
+          "talkMinutes": 1.9,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [
+            "not_interested"
+          ],
+          "intentScore": 16.66,
+          "stage": "cold_not_interested",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238350",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 3.7,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 20.0,
+          "latestEngagement": 20.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "mobile",
+            "billing",
+            "quotation"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 24.33,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238363",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 1,
+          "talkMinutes": 0.9,
+          "maxIntent": 2.0,
+          "latestIntent": 2.0,
+          "maxEngagement": 30.0,
+          "latestEngagement": 30.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 29.85,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238370",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 1,
+          "talkMinutes": 1.3,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 15.64,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        },
+        {
+          "leadId": "238524",
+          "leadSource": "Desktop",
+          "deviceState": "both",
+          "callCount": 13,
+          "talkMinutes": 12.7,
+          "maxIntent": 4.0,
+          "latestIntent": 3.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 50.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device",
+            "desktop",
+            "accounting",
+            "mobile",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested"
+          ],
+          "objections": [],
+          "intentScore": 87.5,
+          "stage": "demo_required",
+          "recommendedPlan": "Only Mobile (1 yr)"
+        },
+        {
+          "leadId": "238604",
+          "leadSource": "Mobile",
+          "deviceState": "both",
+          "callCount": 5,
+          "talkMinutes": 31.4,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 85.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "desktop",
+            "accounting",
+            "mobile",
+            "billing",
+            "multi_device",
+            "quotation"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested",
+            "purchase_signal"
+          ],
+          "objections": [
+            "too_many_calls",
+            "price_objection",
+            "busy_or_later"
+          ],
+          "intentScore": 90.5,
+          "stage": "price_objection/already_software",
+          "recommendedPlan": "Only Mobile (1 yr)"
+        },
+        {
+          "leadId": "238618",
+          "leadSource": "Mobile",
+          "deviceState": "both",
+          "callCount": 9,
+          "talkMinutes": 107.2,
+          "maxIntent": 5.0,
+          "latestIntent": 3.0,
+          "maxEngagement": 90.0,
+          "latestEngagement": 50.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": true,
+          "requirements": [
+            "desktop",
+            "inventory",
+            "accounting",
+            "billing",
+            "mobile",
+            "gst_tax",
+            "multi_device",
+            "multi_business",
+            "multi_location",
+            "quotation"
+          ],
+          "intentTags": [
+            "comparison_signal",
+            "callback_requested",
+            "demo_requested",
+            "pricing_discussed",
+            "purchase_signal"
+          ],
+          "objections": [
+            "price_objection",
+            "already_using_software",
+            "busy_or_later"
+          ],
+          "intentScore": 97.0,
+          "stage": "price_objection/already_software",
+          "recommendedPlan": "Combo (1 yr)"
+        },
+        {
+          "leadId": "238683",
+          "leadSource": "META_LEADS",
+          "deviceState": "unknown",
+          "callCount": 3,
+          "talkMinutes": 15.7,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 70.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 83.5,
+          "stage": "hot",
+          "recommendedPlan": "Combo (1 yr)"
+        },
+        {
+          "leadId": "238711",
+          "leadSource": "Mobile",
+          "deviceState": "both",
+          "callCount": 12,
+          "talkMinutes": 51.6,
+          "maxIntent": 5.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 70.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": true,
+          "requirements": [
+            "desktop",
+            "mobile",
+            "billing",
+            "gst_tax",
+            "multi_device",
+            "multi_business",
+            "multi_location",
+            "quotation"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested",
+            "purchase_signal"
+          ],
+          "objections": [
+            "price_objection",
+            "not_interested",
+            "busy_or_later"
+          ],
+          "intentScore": 92.5,
+          "stage": "cold_not_interested",
+          "recommendedPlan": "Platinum (1 yr)"
+        },
+        {
+          "leadId": "238808",
+          "leadSource": "IB Referral",
+          "deviceState": "desktop_only",
+          "callCount": 8,
+          "talkMinutes": 63.6,
+          "maxIntent": 5.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 85.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "desktop",
+            "inventory",
+            "accounting",
+            "billing",
+            "mobile",
+            "gst_tax",
+            "multi_device",
+            "quotation"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "comparison_signal",
+            "callback_requested"
+          ],
+          "objections": [
+            "price_objection",
+            "already_using_software"
+          ],
+          "intentScore": 90.5,
+          "stage": "price_objection/already_software",
+          "recommendedPlan": "Only Desktop (1 yr)"
+        },
+        {
+          "leadId": "238828",
+          "leadSource": "META_LEADS",
+          "deviceState": "desktop_only",
+          "callCount": 10,
+          "talkMinutes": 25.2,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 75.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": true,
+          "requirements": [
+            "multi_device",
+            "multi_location"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 92.5,
+          "stage": "hot",
+          "recommendedPlan": "Combo (3 yr)"
+        },
+        {
+          "leadId": "238841",
+          "leadSource": "Desktop",
+          "deviceState": "both",
+          "callCount": 1,
+          "talkMinutes": 23.6,
+          "maxIntent": 4.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 75.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device",
+            "mobile",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed"
+          ],
+          "objections": [
+            "price_objection"
+          ],
+          "intentScore": 79.5,
+          "stage": "price_objection/already_software",
+          "recommendedPlan": "desktop_plus_mobile_plan"
+        },
+        {
+          "leadId": "238849",
+          "leadSource": "Mobile",
+          "deviceState": "both",
+          "callCount": 2,
+          "talkMinutes": 1.1,
+          "maxIntent": 2.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 20.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "callback_requested"
+          ],
+          "objections": [
+            "busy_or_later"
+          ],
+          "intentScore": 29.12,
+          "stage": "follow_up_required",
+          "recommendedPlan": "discovery_required"
+        },
+        {
+          "leadId": "238853",
+          "leadSource": "Mobile",
+          "deviceState": "both",
+          "callCount": 13,
+          "talkMinutes": 186.9,
+          "maxIntent": 4.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 85.0,
+          "latestEngagement": 20.0,
+          "agentsSpokenTo": 2,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 90.5,
+          "stage": "hot",
+          "recommendedPlan": "Combo (1 yr)"
+        },
+        {
+          "leadId": "239006",
+          "leadSource": "Mobile",
+          "deviceState": "both",
+          "callCount": 4,
+          "talkMinutes": 2.5,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 23.53,
+          "stage": "contacted",
+          "recommendedPlan": "discovery_required"
+        },
+        {
+          "leadId": "239075",
+          "leadSource": "VYAPAR_LANDING_PAGE_LEADS",
+          "deviceState": "desktop_only",
+          "callCount": 3,
+          "talkMinutes": 16.0,
+          "maxIntent": 4.0,
+          "latestIntent": 3.0,
+          "maxEngagement": 75.0,
+          "latestEngagement": 65.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "desktop",
+            "inventory",
+            "accounting",
+            "mobile",
+            "billing",
+            "multi_device",
+            "quotation"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested",
+            "purchase_signal"
+          ],
+          "objections": [
+            "price_objection"
+          ],
+          "intentScore": 83.5,
+          "stage": "price_objection/already_software",
+          "recommendedPlan": "Combo (1 yr)"
+        },
+        {
+          "leadId": "239126",
+          "leadSource": "META_LEADS",
+          "deviceState": "both",
+          "callCount": 8,
+          "talkMinutes": 19.5,
+          "maxIntent": 5.0,
+          "latestIntent": 5.0,
+          "maxEngagement": 90.0,
+          "latestEngagement": 85.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "multi_device"
+          ],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 92.0,
+          "stage": "hot",
+          "recommendedPlan": "Combo (1 yr)"
+        },
+        {
+          "leadId": "239349",
+          "leadSource": "Desktop",
+          "deviceState": "desktop_only",
+          "callCount": 6,
+          "talkMinutes": 7.3,
+          "maxIntent": 3.0,
+          "latestIntent": 3.0,
+          "maxEngagement": 60.0,
+          "latestEngagement": 60.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": false,
+          "desktopLogin": true,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "desktop",
+            "multi_device",
+            "accounting",
+            "billing"
+          ],
+          "intentTags": [
+            "pricing_discussed",
+            "callback_requested"
+          ],
+          "objections": [
+            "not_interested",
+            "busy_or_later"
+          ],
+          "intentScore": 70.19,
+          "stage": "cold_not_interested",
+          "recommendedPlan": "desktop_plus_mobile_plan"
+        },
+        {
+          "leadId": "239362",
+          "leadSource": "Mobile",
+          "deviceState": "mobile_only",
+          "callCount": 2,
+          "talkMinutes": 24.1,
+          "maxIntent": 5.0,
+          "latestIntent": 4.0,
+          "maxEngagement": 85.0,
+          "latestEngagement": 85.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": true,
+          "needsMultiLocation": false,
+          "requirements": [
+            "desktop",
+            "multi_device",
+            "accounting",
+            "mobile",
+            "billing",
+            "gst_tax"
+          ],
+          "intentTags": [
+            "demo_requested",
+            "pricing_discussed",
+            "callback_requested"
+          ],
+          "objections": [
+            "too_many_calls",
+            "price_objection"
+          ],
+          "intentScore": 84.5,
+          "stage": "price_objection/already_software",
+          "recommendedPlan": "Platinum (1 yr)"
+        },
+        {
+          "leadId": "239682",
+          "leadSource": "META_LEADS",
+          "deviceState": "mobile_only",
+          "callCount": 1,
+          "talkMinutes": 0.7,
+          "maxIntent": 1.0,
+          "latestIntent": 1.0,
+          "maxEngagement": 10.0,
+          "latestEngagement": 10.0,
+          "agentsSpokenTo": 1,
+          "mobileLogin": true,
+          "desktopLogin": false,
+          "needsMultiDevice": false,
+          "needsMultiLocation": false,
+          "requirements": [],
+          "intentTags": [],
+          "objections": [],
+          "intentScore": 14.74,
+          "stage": "contacted",
+          "recommendedPlan": "mobile_plan"
+        }
+      ],
+      "source": {
+        "label": "Local IPT customer attribution datasets",
+        "files": [
+          "lead_level_attribution_training_dataset.csv",
+          "lead_level_attribution_training_dataset1.csv"
+        ],
+        "filters": [
+          "All 52 customer-level rows in the two supplied datasets"
+        ],
+        "executedAt": "2026-10-23T10:11:12Z",
+        "metricDefinitions": [
+          {
+            "label": "Customers",
+            "definition": "Distinct lead_id records in the supplied customer attribution files."
+          },
+          {
+            "label": "High intent",
+            "definition": "Customers with intent_score of 70 or higher; a dashboard analysis threshold, not a source-system status."
+          },
+          {
+            "label": "Logged in",
+            "definition": "Customers with a recorded mobile or desktop login flag."
+          },
+          {
+            "label": "Engagement",
+            "definition": "Latest customer engagement score supplied in the attribution datasets."
+          }
+        ]
+      }
+    },
+    "stage_breakdown": {
+      "rows": [
+        {
+          "category": "contacted",
+          "customers": 13
+        },
+        {
+          "category": "objection_handling",
+          "customers": 7
+        },
+        {
+          "category": "demo_required",
+          "customers": 7
+        },
+        {
+          "category": "cold_not_interested",
+          "customers": 7
+        },
+        {
+          "category": "price_objection/already_software",
+          "customers": 6
+        },
+        {
+          "category": "follow_up_required",
+          "customers": 5
+        },
+        {
+          "category": "hot",
+          "customers": 4
+        },
+        {
+          "category": "interested",
+          "customers": 2
+        },
+        {
+          "category": "plan_discussed",
+          "customers": 1
+        }
+      ],
+      "source": {
+        "label": "Derived from customer_leads",
+        "derivedFrom": [
+          "customer_leads"
+        ]
+      }
+    },
+    "source_breakdown": {
+      "rows": [
+        {
+          "category": "Mobile",
+          "customers": 29
+        },
+        {
+          "category": "META_LEADS",
+          "customers": 8
+        },
+        {
+          "category": "TIKTOK_LEADS",
+          "customers": 6
+        },
+        {
+          "category": "Desktop",
+          "customers": 4
+        },
+        {
+          "category": "TECH_JOCKEY_IB",
+          "customers": 2
+        },
+        {
+          "category": "VYAPAR_LANDING_PAGE_LEADS",
+          "customers": 2
+        },
+        {
+          "category": "IB Referral",
+          "customers": 1
+        }
+      ],
+      "source": {
+        "label": "Derived from customer_leads",
+        "derivedFrom": [
+          "customer_leads"
+        ]
+      }
+    },
+    "requirements": {
+      "rows": [
+        {
+          "category": "billing",
+          "customers": 39
+        },
+        {
+          "category": "accounting",
+          "customers": 31
+        },
+        {
+          "category": "mobile",
+          "customers": 30
+        },
+        {
+          "category": "multi_device",
+          "customers": 21
+        },
+        {
+          "category": "desktop",
+          "customers": 12
+        },
+        {
+          "category": "quotation",
+          "customers": 8
+        },
+        {
+          "category": "multi_business",
+          "customers": 6
+        },
+        {
+          "category": "multi_location",
+          "customers": 5
+        },
+        {
+          "category": "gst_tax",
+          "customers": 5
+        },
+        {
+          "category": "inventory",
+          "customers": 5
+        }
+      ],
+      "source": {
+        "label": "Derived from customer_leads",
+        "derivedFrom": [
+          "customer_leads"
+        ]
+      }
+    },
+    "objections": {
+      "rows": [
+        {
+          "category": "price_objection",
+          "customers": 14
+        },
+        {
+          "category": "busy_or_later",
+          "customers": 10
+        },
+        {
+          "category": "not_interested",
+          "customers": 7
+        },
+        {
+          "category": "already_using_software",
+          "customers": 3
+        },
+        {
+          "category": "too_many_calls",
+          "customers": 2
+        }
+      ],
+      "source": {
+        "label": "Derived from customer_leads",
+        "derivedFrom": [
+          "customer_leads"
+        ]
+      }
+    },
+    "partner_metric_schema": {
+      "rows": [
+        {
+          "group": "Licensing",
+          "metric": "New license count",
+          "definition": "License IDs where lic_flag is New.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Revenue",
+          "metric": "New revenue",
+          "definition": "Revenue from licenses where lic_flag is New.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Revenue",
+          "metric": "Renew revenue",
+          "definition": "Revenue from licenses where lic_flag is Renew.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Productivity",
+          "metric": "Active+ partners",
+          "definition": "Partners with at least one new desktop license in the selected period.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Productivity",
+          "metric": "Key+ partners",
+          "definition": "Partners with at least three new desktop licenses in the selected period.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Productivity",
+          "metric": "Licenses per partner",
+          "definition": "New desktop licenses divided by Active+ partners in the same scope.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Economics",
+          "metric": "ARPL",
+          "definition": "All new revenue divided by new desktop licenses.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Economics",
+          "metric": "Revenue per partner",
+          "definition": "All new revenue divided by Active+ partners.",
+          "businessDate": "payment_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Milestones",
+          "metric": "First active",
+          "definition": "Partners whose first_active_date falls in the selected period.",
+          "businessDate": "first_active_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Milestones",
+          "metric": "First key",
+          "definition": "Partners whose first_key_date falls in the selected period.",
+          "businessDate": "first_key_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Milestones",
+          "metric": "First prime",
+          "definition": "Partners whose first_prime_date falls in the selected period.",
+          "businessDate": "first_prime_date",
+          "status": "Defined"
+        },
+        {
+          "group": "Milestones",
+          "metric": "First strategic",
+          "definition": "Partners whose first_strategic_date falls in the selected period.",
+          "businessDate": "first_strategic_date",
+          "status": "Defined"
+        }
+      ],
+      "source": {
+        "label": "IPT QuickSight metric semantics",
+        "files": [
+          "IPT Chatbot 3/ipt_agent/metric_context.py",
+          "IPT Chatbot 3/ipt_agent/sql_views.py"
+        ],
+        "filters": [
+          "Metric definitions only; no partner observations were supplied"
+        ],
+        "metricDefinitions": [
+          {
+            "label": "Partner metric schema",
+            "definition": "Canonical partner metric intents recovered from the local IPT QuickSight context. Values remain unavailable until a partner dataset is connected."
+          }
+        ]
+      }
+    },
+    "partner_sources": {
+      "rows": [
+        {
+          "source": "Partner page",
+          "routing": "Business category routes TP vs general stream; TL may correct after call review",
+          "owner": "Onboarding / partner team",
+          "state": "Active",
+          "control": "Track manual reassignment and classification accuracy"
+        },
+        {
+          "source": "AI intent / Google Maps",
+          "routing": "Clear yes \u2192 direct Hunting; busy/call-later \u2192 human follow-up",
+          "owner": "Growth / AI + Hunting",
+          "state": "Testing",
+          "control": "Dedupe, existing-partner check, structured outcome and minimum fields"
+        },
+        {
+          "source": "Tally / directory scraping",
+          "routing": "Targeted acquisition; downstream owner depends on relationship",
+          "owner": "Partner team",
+          "state": "Verify",
+          "control": "Confirm exact active feeds and source names"
+        },
+        {
+          "source": "Existing customers / CleverTap",
+          "routing": "Interested customers enter partner onboarding",
+          "owner": "Onboarding",
+          "state": "Active",
+          "control": "Retain campaign/source metadata; rejected users are not assigned"
+        },
+        {
+          "source": "TP product/report sources",
+          "routing": "Product-linked prospects route to TP stream",
+          "owner": "TP team",
+          "state": "Verify",
+          "control": "Confirm feed list, automation status and owner"
+        }
+      ],
+      "source": {
+        "label": "IPT Partner Program KT \u2014 lead acquisition and routing",
+        "url": "https://docs.google.com/document/d/1VUWKwzvCGUfde0RDyZC3bYqmhxWomG0M59Rreodp5x0/edit?tab=t.0"
+      }
+    },
+    "partner_kpis": {
+      "rows": [
+        {
+          "stage": "Acquisition",
+          "kpi": "Qualified partner leads by source and cluster",
+          "decision": "Which channels create scalable supply?",
+          "guardrail": "Duplicate rate and invalid-contact rate",
+          "status": "Recommended"
+        },
+        {
+          "stage": "Contact",
+          "kpi": "Contact / connect rate",
+          "decision": "Is source quality or outreach limiting progression?",
+          "guardrail": "Opt-out and failed-contact rate",
+          "status": "Recommended"
+        },
+        {
+          "stage": "Intent",
+          "kpi": "Hot / Warm intent distribution",
+          "decision": "How well does AI or human qualification work?",
+          "guardrail": "Manual-review agreement rate",
+          "status": "Needs taxonomy"
+        },
+        {
+          "stage": "Onboarding",
+          "kpi": "Onboarding conversion rate",
+          "decision": "Where do proposition and process friction appear?",
+          "guardrail": "KYC drop-off and incomplete minimum fields",
+          "status": "Recommended"
+        },
+        {
+          "stage": "Hunting",
+          "kpi": "Time to first partner-generated lead",
+          "decision": "How quickly does relationship-building create activity?",
+          "guardrail": "No-contact and inactive aging",
+          "status": "Recommended"
+        },
+        {
+          "stage": "Activation",
+          "kpi": "Share producing eligible business",
+          "decision": "How much onboarding becomes real program value?",
+          "guardrail": "Self-purchase and ineligible-product checks",
+          "status": "Needs definition"
+        },
+        {
+          "stage": "Farming",
+          "kpi": "Active productive partners and value per partner",
+          "decision": "Is partner value durable and diversified?",
+          "guardrail": "Concentration risk and dormant-partner rate",
+          "status": "Needs tiers"
+        },
+        {
+          "stage": "Economics",
+          "kpi": "Cost per activated partner and revenue per partner",
+          "decision": "Does acquisition cost create downstream value?",
+          "guardrail": "Use fully loaded AI and human cost",
+          "status": "Recommended"
+        }
+      ],
+      "source": {
+        "label": "IPT Partner Program KT \u2014 suggested process KPIs",
+        "url": "https://docs.google.com/document/d/1VUWKwzvCGUfde0RDyZC3bYqmhxWomG0M59Rreodp5x0/edit?tab=t.0"
+      }
+    },
+    "partner_controls": {
+      "rows": [
+        {
+          "risk": "Duplicate partner identities",
+          "stance": "Known issue; not normal design",
+          "control": "Define canonical entity matching and dedupe before ingestion"
+        },
+        {
+          "risk": "Account splitting for TDS",
+          "stance": "Not intended",
+          "control": "Flag for compliance and operations review"
+        },
+        {
+          "risk": "Self-purchase for commission",
+          "stance": "Not allowed",
+          "control": "Use device and partner identifiers; document eligibility rules"
+        },
+        {
+          "risk": "Premature KYC",
+          "stance": "Avoid as first-touch hard gate",
+          "control": "Collect minimum fields first; complete verification after trust begins"
+        },
+        {
+          "risk": "Territory conflict",
+          "stance": "Material relationship risk",
+          "control": "Assess geographic and relationship impact before expansion"
+        }
+      ],
+      "source": {
+        "label": "IPT Partner Program KT \u2014 risks and control points",
+        "url": "https://docs.google.com/document/d/1VUWKwzvCGUfde0RDyZC3bYqmhxWomG0M59Rreodp5x0/edit?tab=t.0"
+      }
+    },
+    "partner_open_questions": {
+      "rows": [
+        {
+          "priority": "P0",
+          "question": "Canonical name for the general stream: AP, EP, or another label?",
+          "owner": "Partner Ops / Ishabh"
+        },
+        {
+          "priority": "P0",
+          "question": "Current Hunting/Farming tier names and monthly or quarterly thresholds?",
+          "owner": "Partner Ops + Data"
+        },
+        {
+          "priority": "P0",
+          "question": "Formal activated-partner definition used in dashboards and assignment?",
+          "owner": "Partner Ops + Data"
+        },
+        {
+          "priority": "P0",
+          "question": "Current AI intent taxonomy, routing rules, and minimum ingestion fields?",
+          "owner": "Partner Ops + Growth + Data"
+        },
+        {
+          "priority": "P1",
+          "question": "Authoritative identity keys for dedupe and entity resolution?",
+          "owner": "Data / Backend"
+        },
+        {
+          "priority": "P1",
+          "question": "Current desktop/mobile commission and product eligibility rules?",
+          "owner": "Partner Ops + Finance"
+        },
+        {
+          "priority": "P1",
+          "question": "Can Farming partners return to Hunting, and under what trigger?",
+          "owner": "Partner Ops"
+        }
+      ],
+      "source": {
+        "label": "IPT Partner Program KT \u2014 open items and maintenance priorities",
+        "url": "https://docs.google.com/document/d/1VUWKwzvCGUfde0RDyZC3bYqmhxWomG0M59Rreodp5x0/edit?tab=t.0"
+      }
+    }
+  },
+  "id": "dashboard:2263d026-4dca-4a73-8923-a715e7002adb"
+}

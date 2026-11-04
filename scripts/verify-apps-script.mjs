@@ -58,6 +58,16 @@ if(!source.includes('function setSourceActive_'))throw new Error('Source activat
 if(vm.runInContext("previousMonth_('2026-01')",context)!=='2025-12')throw new Error('Previous-month target rollover is incorrect.');
 if(vm.runInContext("targetRangesOverlap_('2026-08-01','2026-08-31','2026-09-01','2026-09-30')",context)!==false||vm.runInContext("targetRangesOverlap_('2026-08-01','2026-09-05','2026-09-01','2026-09-30')",context)!==true)throw new Error('Target effective-date overlap detection is incorrect.');
 ['doGet','doPost','configurePlatform','setupPlatform','setOwnerPassword','installPlatformTriggers','dailyAgentDataRefreshJob','login_','authenticate_','batchMonthlyMappings_','listMappingCandidates_','batchTargets_','createTarget_','currentTargetMatrix_','createCurrentMonthTargets_','setSourceActive_','resolveSheetConnection_','previewAgentDump_','importAgentDump_','importRevenueSheet_','exportIncentivesToGoogleSheet_','rebuildIncentivesForMonths'].forEach(name=>{if(!new RegExp(`function\\s+${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\s*\\(`).test(source))throw new Error(`Missing required Apps Script function: ${name}`);});
+for(const name of ['configureIptAgentSnapshotSource','setupIptAgentPerformanceHistory','captureIptAgentPerformanceSnapshots','syncIptAgentPerformanceHistory','dailyIptAgentPerformanceSnapshotJob'])if(!new RegExp(`function\\s+${name}\\s*\\(`).test(source))throw new Error(`Missing required IPT history function: ${name}`);
+if(vm.runInContext("iptMetricNumber_('1,234')",context)!==1234)throw new Error('IPT snapshot metrics must support formatted numbers.');
+const iptAggregate=vm.runInContext(`readIptAgentPeriodHistory_({getLastRow:()=>4,getLastColumn:()=>14,getRange:()=>({getValues:()=>[
+  ['month_agent_email','month_agent_id','month_team_lead','month_agent_designation','month_cluster_name','month_ipt_team','period_type','period_start','leads_created','logins','demos','conversions','assign_month','total_leads'],
+  ['agent@example.com','A1','Lead A','AE','North','Team 1','DAY','2026-11-04',1,2,3,4,'',''],
+  ['agent@example.com','A1','Lead A','AE','North','Team 1','DAY','2026-11-04',10,20,30,40,'',''],
+  ['agent@example.com','A1','Lead A','AE','North','Team 1','ASSIGNMENT_MONTH','2026-11-01','','','','','2026-11-01',99]
+]})})`,context);
+if(iptAggregate.length!==1||iptAggregate[0].periodType!=='DAY'||iptAggregate[0].period!=='2026-11-04'||iptAggregate[0].leads!==11||iptAggregate[0].logins!==22||iptAggregate[0].conversions!==44)throw new Error('IPT historical period rows must aggregate once per agent and period.');
+if(!source.includes("newTrigger('dailyIptAgentPerformanceSnapshotJob')"))throw new Error('The IPT agent performance snapshot trigger is missing.');
 const manifest=JSON.parse(fs.readFileSync(path.join(directory,'appsscript.json'),'utf8'));
 if(manifest.runtimeVersion!=='V8')throw new Error('Apps Script V8 runtime is required.');
 if(source.includes('DriveApp.'))throw new Error('Incentive export must use the existing Spreadsheet scope instead of broad Drive access.');
