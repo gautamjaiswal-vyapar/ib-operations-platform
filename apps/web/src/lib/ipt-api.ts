@@ -1,5 +1,4 @@
 const iptApiUrl = process.env.NEXT_PUBLIC_IPT_API_URL || process.env.NEXT_PUBLIC_APPS_SCRIPT_URL || '';
-export const iptGoogleClientId = process.env.NEXT_PUBLIC_IPT_GOOGLE_CLIENT_ID || '';
 const IPT_SESSION_KEY = 'ipt-dashboard-session';
 
 type Envelope<T> = { ok: boolean; data?: T; error?: { status: number; message: string } };

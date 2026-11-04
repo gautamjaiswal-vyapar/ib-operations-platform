@@ -85,7 +85,6 @@ Set the public integration value in `apps/web/.env.local`:
 ```env
 NEXT_PUBLIC_APPS_SCRIPT_URL=https://script.google.com/macros/s/DEPLOYMENT_ID/exec
 NEXT_PUBLIC_IPT_API_URL=https://script.google.com/macros/s/DEPLOYMENT_ID/exec
-NEXT_PUBLIC_IPT_GOOGLE_CLIENT_ID=GOOGLE_WEB_CLIENT_ID.apps.googleusercontent.com
 ```
 
 Then run:
@@ -101,11 +100,11 @@ Open `http://localhost:3000` and sign in as `gautam.jaiswal@vyapar.com` with the
 In the GitHub repository:
 
 1. Open **Settings → Secrets and variables → Actions → Variables**.
-2. Add `APPS_SCRIPT_URL`, `IPT_API_URL`, and `IPT_GOOGLE_CLIENT_ID`.
+2. Add `APPS_SCRIPT_URL` and `IPT_API_URL`.
 3. Open **Settings → Pages** and select **GitHub Actions** as the source.
 4. Run the **Deploy GitHub Pages** workflow or push to `main`.
 
-The deployment workflow builds the IB Operations Platform and the independent IPT Agent Performance dashboard at `/agent-performance/`. IPT access uses verified Vyapar Google Workspace identity and the IPT spreadsheet's `Users` sheet; it does not use the IB Operations Platform login. The shared AgentData cache refreshes at 10:00, 14:00, 18:00, and 22:00 IST, and open dashboards poll for a new cache version every five minutes.
+The deployment workflow builds the IB Operations Platform and the independent IPT Agent Performance dashboard at `/agent-performance/`. IPT scope is read from the IPT spreadsheet's `Users` sheet; it does not use the IB Operations Platform login. This temporary email-only flow does not authenticate ownership of an entered email and should not be used for confidential data. The shared AgentData cache refreshes at 10:00, 14:00, 18:00, and 22:00 IST, and open dashboards poll for a new cache version every five minutes.
 
 ## Validation
 
