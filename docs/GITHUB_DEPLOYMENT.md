@@ -24,14 +24,11 @@ In the GitHub repository:
 
 The workflow installs dependencies, creates the Next.js static export, uploads `apps/web/out`, and publishes it with GitHub's official Pages actions.
 
-## Apps Script variables
+## Apps Script variable
 
-Create these Actions repository variables:
+Create an Actions repository variable named `APPS_SCRIPT_URL` for the main operations API. It is injected into the static IB Operations build as a browser-facing web-app endpoint. Authentication credentials, password hashes, role mappings, and session-token hashes remain in the configured backend Google Spreadsheet.
 
-- `APPS_SCRIPT_URL` for the main operations API.
-- `IPT_AGENT_DASHBOARD_URL` for the domain-restricted IPT Agent Performance web app.
-
-They are injected into the static build as browser-facing web-app endpoints. Authentication credentials, password hashes, role mappings, session-token hashes, employee records, and business data remain in the configured backend Google Spreadsheets. Never commit the generated IPT `data.json` snapshot to this repository.
+The IPT Agent Performance dashboard is deployed as a separate public snapshot under `/agent-performance/`. It does not use the IB Operations Platform's sheet-based authentication. Its reviewed snapshot contains agent-level performance data and must be treated as public until independent access control is introduced.
 
 Before deploying the frontend, upload `apps-script/`, run `configurePlatform('GOOGLE_SPREADSHEET_ID')`, run `setOwnerPassword(...)` interactively, and deploy the Apps Script project as a web app. Without `APPS_SCRIPT_URL`, protected platform operations remain unavailable. Executive identities are discovered or configured from a Google Sheet grid with `data_month`, `employee_id`, `executive_name`, `email`, `doj`, and `manager`; operational Source, Status, and Updated At values are supplied during the audited import. The Connected Sheets SQL lives in `sql/agent_latest.sql`, but the application itself has no direct BigQuery runtime dependency.
 
